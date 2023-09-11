@@ -8,11 +8,9 @@ extern motor driveRightBack;
 extern motor driveLeftFront;
 extern motor driveRightFront;
 extern controller Controller1;
-extern motor intakeMotor;
 extern motor cataMotor2;
 extern digital_out pneuPiston1;
 extern digital_out pneuPiston2;
-extern limit cataSwitch;
 extern motor cataMotor1;
 
 /**

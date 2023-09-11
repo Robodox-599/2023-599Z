@@ -15,12 +15,10 @@
 // driveLeftFront       motor         10              
 // driveRightFront      motor         1               
 // Controller1          controller                    
-// intakeMotor          motor         6               
-// cataMotor2           motor         7               
+// cataMotor2           motor         5               
 // pneuPiston1          digital_out   A               
 // pneuPiston2          digital_out   B               
-// cataSwitch           limit         C               
-// cataMotor1           motor         5               
+// cataMotor1           motor         6               
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
@@ -69,26 +67,13 @@ void pistonCmnd(bool val){
   pneuPiston1.set(val);
   pneuPiston2.set(val);
 }
-void cataLoad(double distance){
-  if (cataSwitch.pressing() == false){
-    cataMotor1.spin(reverse);
-    cataMotor2.spin(reverse);
-  }
-  else{
-    cataMotor1.stop(brakeType:: coast);
-    cataMotor2.stop(brakeType:: coast);
-  }
-}
 void cataRapid(int reps){
   for(int i=0; reps <= i; i++){
-    
     cataMotor1.spinFor(-reps, rotationUnits::rev, 100, velocityUnits::pct);
     cataMotor2.spinFor(-reps, rotationUnits::rev, 100, velocityUnits::pct);
   }
 }
-void intake(int reps, int dir, int speed){
-  intakeMotor.spinFor((dir*reps), rotationUnits::rev, speed, velocityUnits::pct);
-}
+
 
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
@@ -123,7 +108,7 @@ void autonomous(void) {
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
-//void driveTrain(){
+//void arcadeDrive(){
 // basically the way it works for explaining to others (AKA MICHAEL)--- motorYouWantToSpin.spin(direction, speed, velocity type)
 // left back motor
 // driveLeftBack.spin(forward, (Controller1.Axis3.value() + Controller1.Axis1.value()), percent);
@@ -140,28 +125,13 @@ void tankDrive(){
   driveRightBack.spin(forward, Controller1.Axis2.value(), percent);
   driveRightFront.spin(forward, Controller1.Axis2.value(), percent);
 }
-void intakeControl(){
-  if (Controller1.ButtonR1.pressing()){
-      intakeMotor.spin(forward, 100, percent);
-    }
-  else if (Controller1.ButtonR2.pressing()){
-      intakeMotor.spin(reverse, 100, percent);
-    }
-  else{
-      intakeMotor.stop(brakeType::coast);
-    }
-}
 void cataControl(){
    if (Controller1.ButtonB.pressing()){
-     cataMotor1.spin(reverse, 100, percent);
-     cataMotor2.spin(reverse, 100, percent);
-   } else if (cataSwitch.pressing() == false){
      cataMotor1.spin(reverse, 100, percent);
      cataMotor2.spin(reverse, 100, percent);
    } else {
      cataMotor1.stop(brakeType:: coast);
      cataMotor2.stop(brakeType:: coast);
-
    }
 }
 
@@ -176,10 +146,10 @@ void flapsControlOff(){
 void usercontrol(void) {
   // User control code here, inside the loop
   while (1) {
-//arcade drive code controls 
-    driveTrain();
-// intake code  controls 
-    intakeControl();
+// arcade drive code controls
+// arcadeDrive();
+//tank drive code controls 
+    tankDrive();
 // outake code controls
     cataControl();
 // flaps code controls
