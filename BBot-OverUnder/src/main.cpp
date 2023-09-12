@@ -6,7 +6,6 @@
 /*    Description:  Competition Template                                      */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
-
 // ---- START VEXCODE CONFIGURED DEVICES ----
 // Robot Configuration:
 // [Name]               [Type]        [Port(s)]
@@ -22,23 +21,17 @@
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
-
+#include <cstring>
 using namespace vex;
-
-// A global instance of competition
 competition Competition;
 
-// define your global instances of motors and other devices here
+//pre-auton function
+// initializing and reseting
+void pre_auton(void) {
+  vexcodeInit();
+}
 
-/*---------------------------------------------------------------------------*/
-/*                          Pre-Autonomous Functions                         */
-/*                                                                           */
-/*  You may want to perform some actions before the competition starts.      */
-/*  Do them in the following function.  You must return from this function   */
-/*  or the autonomous and usercontrol tasks will not be started.  This       */
-/*  function is only called once after the V5 has been powered on and        */
-/*  not every time that the robot is disabled.                               */
-/*---------------------------------------------------------------------------*/
+//autonomous functions and main auton function
 void fwd(double distance, int speed){
   driveLeftBack.spinFor(distance, rotationUnits::rev, speed, velocityUnits::pct, false);
   driveRightBack.spinFor(distance, rotationUnits::rev, speed, velocityUnits::pct, false);
@@ -73,52 +66,18 @@ void cataRapid(int reps){
     cataMotor2.spinFor(-reps, rotationUnits::rev, 100, velocityUnits::pct);
   }
 }
-
-
-void pre_auton(void) {
-  // Initializing Robot Configuration. DO NOT REMOVE!
-  vexcodeInit();
-
-  // All activities that occur before the competition starts
-  // Example: clearing encoders, setting servo positions, ...
-}
-
-/*---------------------------------------------------------------------------*/
-/*                                                                           */
-/*                              Autonomous Task                              */
-/*                                                                           */
-/*  This task is used to control your robot during the autonomous phase of   */
-/*  a VEX Competition.                                                       */
-/*                                                                           */
-/*  You must modify the code to add your own robot specific commands here.   */
-/*---------------------------------------------------------------------------*/
-
 void autonomous(void) {
-  // ..........................................................................
-  // Insert autonomous user code here.
-  // ..........................................................................
+ 
 }
 
-/*---------------------------------------------------------------------------*/
-/*                                                                           */
-/*                              User Control Task                            */
-/*                                                                           */
-/*  This task is used to control your robot during the user control phase of */
-/*  a VEX Competition.                                                       */
-/*                                                                           */
-/*  You must modify the code to add your own robot specific commands here.   */
-/*---------------------------------------------------------------------------*/
-//void arcadeDrive(){
-// basically the way it works for explaining to others (AKA MICHAEL)--- motorYouWantToSpin.spin(direction, speed, velocity type)
-// left back motor
-// driveLeftBack.spin(forward, (Controller1.Axis3.value() + Controller1.Axis1.value()), percent);
-// // right back motor
-// driveRightBack.spin(forward, (Controller1.Axis3.value() - Controller1.Axis1.value()), percent);
-// // left front motor
-// driveLeftFront.spin(forward, (Controller1.Axis3.value() + Controller1.Axis1.value()), percent);
-// // right front motor
-// driveRightFront.spin(forward, (Controller1.Axis3.value() - Controller1.Axis1.value()), percent);
-//}
+// user control functions 
+void arcadeDrive(){
+//motorYouWantToSpin.spin(direction, speed, velocity type)
+driveLeftBack.spin(forward, (Controller1.Axis3.value() + Controller1.Axis1.value()), percent);
+driveRightBack.spin(forward, (Controller1.Axis3.value() - Controller1.Axis1.value()), percent);
+driveLeftFront.spin(forward, (Controller1.Axis3.value() + Controller1.Axis1.value()), percent);
+driveRightFront.spin(forward, (Controller1.Axis3.value() - Controller1.Axis1.value()), percent);
+}
 void tankDrive(){
   driveLeftBack.spin(forward, Controller1.Axis3.value(), percent);
   driveLeftFront.spin(forward, Controller1.Axis3.value(), percent);
@@ -134,7 +93,6 @@ void cataControl(){
      cataMotor2.stop(brakeType:: coast);
    }
 }
-
 void flapsControlOn(){
   pneuPiston1.set(true); 
   pneuPiston2.set(true);
@@ -144,33 +102,26 @@ void flapsControlOff(){
   pneuPiston2.set(false);
 }
 void usercontrol(void) {
-  // User control code here, inside the loop
   while (1) {
-// arcade drive code controls
-// arcadeDrive();
-//tank drive code controls 
+    // arcade drive code controls
+    // arcadeDrive();
+    //tank drive code controls 
     tankDrive();
-// outake code controls
+    // outake code controls
     cataControl();
-// flaps code controls
+    // flaps code controls
     Controller1.ButtonB.pressed(flapsControlOn);
     Controller1.ButtonY.pressed(flapsControlOff);
-    wait(20, msec); // Sleep the task for a short amount of time to
-                    // prevent wasted resources.
+    wait(20, msec); 
   }
 }
-
-//
-// Main will set up the competition functions and callbacks.
-//
+//main function
 int main() {
-  // Set up callbacks for autonomous and driver control periods.
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
-  // Run the pre-autonomous function.
   pre_auton();
-  // Prevent main from exiting with an infinite loop.
   while (true) {
     wait(100, msec);
   }
 }
+
