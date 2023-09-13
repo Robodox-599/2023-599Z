@@ -14,7 +14,7 @@
 // driveLeftFront       motor         10              
 // driveRightFront      motor         1               
 // Controller1          controller                    
-// cataMotor2           motor         5               
+// cataMotor2           motor         11              
 // pneuPiston1          digital_out   A               
 // pneuPiston2          digital_out   B               
 // cataMotor1           motor         6               
@@ -32,35 +32,45 @@ void pre_auton(void) {
 }
 
 //autonomous functions and main auton function
+
+float WheelCircumference = (4.125 * 3.1415);
+float revolutions2Angle; //defining later =b
+
+
 void fwd(double distance, int speed){
-  driveLeftBack.spinFor(distance, rotationUnits::rev, speed, velocityUnits::pct, false);
-  driveRightBack.spinFor(distance, rotationUnits::rev, speed, velocityUnits::pct, false);
-  driveLeftFront.spinFor(distance, rotationUnits::rev, speed, velocityUnits::pct, false);
-  driveRightFront.spinFor(distance, rotationUnits::rev, speed, velocityUnits::pct);
+  float Degree = (distance/WheelCircumference) * 360;
+  driveLeftBack.spinFor(Degree, rotationUnits::deg, speed, velocityUnits::pct, false);
+  driveRightBack.spinFor(Degree, rotationUnits::deg, speed, velocityUnits::pct, false);
+  driveLeftFront.spinFor(Degree, rotationUnits::deg, speed, velocityUnits::pct, false);
+  driveRightFront.spinFor(Degree, rotationUnits::deg, speed, velocityUnits::pct);
 }
 void rev(double distance, int speed){
-  driveLeftBack.spinFor(-distance, rotationUnits::rev, speed, velocityUnits::pct, false);
-  driveRightBack.spinFor(-distance, rotationUnits::rev, speed, velocityUnits::pct, false);
-  driveLeftFront.spinFor(-distance, rotationUnits::rev, speed, velocityUnits::pct, false);
-  driveRightFront.spinFor(-distance, rotationUnits::rev, speed, velocityUnits::pct);
+  float Degree = (distance/WheelCircumference) * 360;
+  driveLeftBack.spinFor(-Degree, rotationUnits::deg, speed, velocityUnits::pct, false);
+  driveRightBack.spinFor(-Degree, rotationUnits::deg, speed, velocityUnits::pct, false);
+  driveLeftFront.spinFor(-Degree, rotationUnits::deg, speed, velocityUnits::pct, false);
+  driveRightFront.spinFor(-Degree, rotationUnits::deg, speed, velocityUnits::pct);
 }
-void tRight(double distance, int speed){
-  driveLeftBack.spinFor(-distance, rotationUnits::rev, speed, velocityUnits::pct, false);
-  driveRightBack.spinFor(distance, rotationUnits::rev, speed, velocityUnits::pct, false);
-  driveLeftFront.spinFor(-distance, rotationUnits::rev, speed, velocityUnits::pct, false);
-  driveRightFront.spinFor(distance, rotationUnits::rev, speed, velocityUnits::pct);
+
+void tRight(double degrees, int speed){
+  float Degree = (degrees * revolutions2Angle) * 360;
+  driveLeftBack.spinFor(-Degree, rotationUnits::deg, speed, velocityUnits::pct, false);
+  driveRightBack.spinFor(Degree, rotationUnits::deg, speed, velocityUnits::pct, false);
+  driveLeftFront.spinFor(-Degree, rotationUnits::deg, speed, velocityUnits::pct, false);
+  driveRightFront.spinFor(Degree, rotationUnits::deg, speed, velocityUnits::pct);
 }
-void tLeft(double distance, int speed){
-  driveLeftBack.spinFor(distance, rotationUnits::rev, speed, velocityUnits::pct, false);
-  driveRightBack.spinFor(-distance, rotationUnits::rev, speed, velocityUnits::pct, false);
-  driveLeftFront.spinFor(distance, rotationUnits::rev, speed, velocityUnits::pct, false);
-  driveRightFront.spinFor(-distance, rotationUnits::rev, speed, velocityUnits::pct);
+void tLeft(double degrees, int speed){
+  float Degree = (degrees * revolutions2Angle) * 360;
+  driveLeftBack.spinFor(Degree, rotationUnits::deg, speed, velocityUnits::pct, false);
+  driveRightBack.spinFor(-Degree, rotationUnits::deg, speed, velocityUnits::pct, false);
+  driveLeftFront.spinFor(Degree, rotationUnits::deg, speed, velocityUnits::pct, false);
+  driveRightFront.spinFor(-Degree, rotationUnits::deg, speed, velocityUnits::pct);
 }
 void pistonCmnd(bool val){
   pneuPiston1.set(val);
   pneuPiston2.set(val);
 }
-void cataRapid(int reps){
+void cataRapid(int reps, int speed){
   for(int i=0; reps <= i; i++){
     cataMotor1.spinFor(-reps, rotationUnits::rev, 100, velocityUnits::pct);
     cataMotor2.spinFor(-reps, rotationUnits::rev, 100, velocityUnits::pct);
@@ -86,8 +96,8 @@ void tankDrive(){
 }
 void cataControl(){
    if (Controller1.ButtonB.pressing()){
-     cataMotor1.spin(reverse, 100, percent);
-     cataMotor2.spin(reverse, 100, percent);
+     cataMotor1.spin(reverse, 30, percent);
+     cataMotor2.spin(reverse, 30, percent);
    } else {
      cataMotor1.stop(brakeType:: coast);
      cataMotor2.stop(brakeType:: coast);
