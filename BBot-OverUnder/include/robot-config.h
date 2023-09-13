@@ -12,6 +12,7 @@ extern motor cataMotor2;
 extern digital_out pneuPiston1;
 extern digital_out pneuPiston2;
 extern motor cataMotor1;
+extern motor descorer;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.

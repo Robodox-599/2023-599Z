@@ -1,3 +1,45 @@
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// driveLeftBack        motor         9               
+// driveRightBack       motor         2               
+// driveLeftFront       motor         10              
+// driveRightFront      motor         1               
+// Controller1          controller                    
+// cataMotor2           motor         11              
+// pneuPiston1          digital_out   A               
+// pneuPiston2          digital_out   B               
+// cataMotor1           motor         6               
+// descorer             motor         21              
+// ---- END VEXCODE CONFIGURED DEVICES ----
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// driveLeftBack        motor         9               
+// driveRightBack       motor         2               
+// driveLeftFront       motor         10              
+// driveRightFront      motor         1               
+// Controller1          controller                    
+// cataMotor2           motor         11              
+// pneuPiston1          digital_out   A               
+// pneuPiston2          digital_out   B               
+// cataMotor1           motor         6               
+// descorer             motor         21              
+// ---- END VEXCODE CONFIGURED DEVICES ----
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// driveLeftBack        motor         9               
+// driveRightBack       motor         2               
+// driveLeftFront       motor         10              
+// driveRightFront      motor         1               
+// Controller1          controller                    
+// cataMotor2           motor         11              
+// pneuPiston1          digital_out   A               
+// pneuPiston2          digital_out   B               
+// cataMotor1           motor         6               
+// Motor21              motor         21              
+// ---- END VEXCODE CONFIGURED DEVICES ----
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
 /*    Module:       main.cpp                                                  */
@@ -35,6 +77,8 @@ void pre_auton(void) {
 
 float WheelCircumference = (4.125 * 3.1415);
 float revolutions2Angle; //defining later =b
+// but it is basically how many degrees the robot turns when each motor does 1 full revolution in the appropriate direction 
+// ill have to ask sam how to find this
 
 
 void fwd(double distance, int speed){
@@ -70,10 +114,18 @@ void pistonCmnd(bool val){
   pneuPiston1.set(val);
   pneuPiston2.set(val);
 }
-void cataRapid(int reps, int speed){
+void cataRapid(int reps, float time){
   for(int i=0; reps <= i; i++){
-    cataMotor1.spinFor(-reps, rotationUnits::rev, 100, velocityUnits::pct);
-    cataMotor2.spinFor(-reps, rotationUnits::rev, 100, velocityUnits::pct);
+    cataMotor1.spinFor(-180, rotationUnits::deg, 100, velocityUnits::pct, false);
+    cataMotor1.spinFor(-180, rotationUnits::deg, 100, velocityUnits::pct);
+    wait(time, msec);
+  }
+}
+void descorerCmnd(bool val){
+  if (val){
+    descorer.spinFor(180, rotationUnits::deg, 100, velocityUnits::pct);
+  } else {
+    descorer.spinFor(-180, rotationUnits::deg, 100, velocityUnits::pct);
   }
 }
 void autonomous(void) {
@@ -83,10 +135,10 @@ void autonomous(void) {
 // user control functions 
 void arcadeDrive(){
 //motorYouWantToSpin.spin(direction, speed, velocity type)
-driveLeftBack.spin(forward, (Controller1.Axis3.value() + Controller1.Axis1.value()), percent);
-driveRightBack.spin(forward, (Controller1.Axis3.value() - Controller1.Axis1.value()), percent);
-driveLeftFront.spin(forward, (Controller1.Axis3.value() + Controller1.Axis1.value()), percent);
-driveRightFront.spin(forward, (Controller1.Axis3.value() - Controller1.Axis1.value()), percent);
+  driveLeftBack.spin(forward, (Controller1.Axis3.value() + Controller1.Axis1.value()), percent);
+  driveRightBack.spin(forward, (Controller1.Axis3.value() - Controller1.Axis1.value()), percent);
+  driveLeftFront.spin(forward, (Controller1.Axis3.value() + Controller1.Axis1.value()), percent);
+  driveRightFront.spin(forward, (Controller1.Axis3.value() - Controller1.Axis1.value()), percent);
 }
 void tankDrive(){
   driveLeftBack.spin(forward, Controller1.Axis3.value(), percent);
@@ -94,13 +146,23 @@ void tankDrive(){
   driveRightBack.spin(forward, Controller1.Axis2.value(), percent);
   driveRightFront.spin(forward, Controller1.Axis2.value(), percent);
 }
-void cataControl(){
-   if (Controller1.ButtonB.pressing()){
-     cataMotor1.spin(reverse, 30, percent);
-     cataMotor2.spin(reverse, 30, percent);
-   } else {
-     cataMotor1.stop(brakeType:: coast);
+void cataControl(float time){
+  if (Controller1.ButtonR1.pressing()){
+     cataMotor1.spinFor(-180, rotationUnits::deg, 100, velocityUnits::pct, false);
+     cataMotor1.spinFor(-180, rotationUnits::deg, 100, velocityUnits::pct);
+     wait(time, msec);
+  } else {
+     cataMotor1.stop(brakeType:: coast); 
      cataMotor2.stop(brakeType:: coast);
+  }
+}
+void descorerControls(){
+  if (Controller1.ButtonL1.pressing()){
+    descorer.spin(forward, -100, velocityUnits::pct);
+   } else if (Controller1.ButtonL2.pressing()) {
+     descorer.spin(forward, 100, velocityUnits::pct);
+   } else{
+     descorer.stop(brakeType:: hold);
    }
 }
 void flapsControlOn(){
@@ -118,7 +180,7 @@ void usercontrol(void) {
     //tank drive code controls 
     tankDrive();
     // outake code controls
-    cataControl();
+    cataControl(100); // change this to how much time it takes to reset the cata at the slip position
     // flaps code controls
     Controller1.ButtonB.pressed(flapsControlOn);
     Controller1.ButtonY.pressed(flapsControlOff);

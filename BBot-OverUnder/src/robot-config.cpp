@@ -17,6 +17,7 @@ motor cataMotor2 = motor(PORT11, ratio36_1, false);
 digital_out pneuPiston1 = digital_out(Brain.ThreeWirePort.A);
 digital_out pneuPiston2 = digital_out(Brain.ThreeWirePort.B);
 motor cataMotor1 = motor(PORT6, ratio36_1, true);
+motor descorer = motor(PORT21, ratio18_1, false);
 
 // VEXcode generated functions
 // define variable for remote controller enable/disable
