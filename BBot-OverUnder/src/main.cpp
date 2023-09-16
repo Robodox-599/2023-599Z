@@ -48,26 +48,33 @@ void pre_auton(void) {
 //autonomous functions and main auton function
 
 float WheelCircumference = (4.125 * 3.1415);
+float speedFR; // creating a speed varibale to store speed accross functions 
 float revolutions2Angle; //defining later =b
 // but it is basically how many degrees the robot turns when each motor does 1 full revolution in the appropriate direction 
 // ill have to ask sam how to find this
-
-
+float rampUp(float maxSpeed){
+  float currentSpeed = 0;
+  for(int i; i <= maxSpeed, i++;){
+    currentSpeed++;
+    speedFR = currentSpeed;
+  }
+  speedFR = maxSpeed;
+  return speedFR;
+}
 void fwd(double distance, int speed){
   float Degree = (distance/WheelCircumference) * 360;
-  driveLeftBack.spinFor(Degree, rotationUnits::deg, speed, velocityUnits::pct, false);
-  driveRightBack.spinFor(Degree, rotationUnits::deg, speed, velocityUnits::pct, false);
-  driveLeftFront.spinFor(Degree, rotationUnits::deg, speed, velocityUnits::pct, false);
-  driveRightFront.spinFor(Degree, rotationUnits::deg, speed, velocityUnits::pct);
+  driveLeftBack.spinFor(Degree, rotationUnits::deg, rampUp(speed), velocityUnits::pct, false);
+  driveRightBack.spinFor(Degree, rotationUnits::deg, rampUp(speed), velocityUnits::pct, false);
+  driveLeftFront.spinFor(Degree, rotationUnits::deg, rampUp(speed), velocityUnits::pct, false);
+  driveRightFront.spinFor(Degree, rotationUnits::deg, rampUp(speed), velocityUnits::pct);
 }
 void rev(double distance, int speed){
   float Degree = (distance/WheelCircumference) * 360;
-  driveLeftBack.spinFor(-Degree, rotationUnits::deg, speed, velocityUnits::pct, false);
-  driveRightBack.spinFor(-Degree, rotationUnits::deg, speed, velocityUnits::pct, false);
-  driveLeftFront.spinFor(-Degree, rotationUnits::deg, speed, velocityUnits::pct, false);
-  driveRightFront.spinFor(-Degree, rotationUnits::deg, speed, velocityUnits::pct);
+  driveLeftBack.spinFor(-Degree, rotationUnits::deg, rampUp(speed), velocityUnits::pct, false);
+  driveRightBack.spinFor(-Degree, rotationUnits::deg, rampUp(speed), velocityUnits::pct, false);
+  driveLeftFront.spinFor(-Degree, rotationUnits::deg, rampUp(speed), velocityUnits::pct, false);
+  driveRightFront.spinFor(-Degree, rotationUnits::deg, rampUp(speed), velocityUnits::pct);
 }
-
 void tRight(double degrees, int speed){
   float Degree = (degrees * revolutions2Angle) * 360;
   driveLeftBack.spinFor(-Degree, rotationUnits::deg, speed, velocityUnits::pct, false);
@@ -100,6 +107,7 @@ void descorerCmnd(bool val){
     descorer.spinFor(-180, rotationUnits::deg, 100, velocityUnits::pct);
   }
 }
+
 void autonomous(void) {
  
 }
@@ -112,24 +120,14 @@ void arcadeDrive(float fwdIn, float trnIn){
   driveLeftFront.spin(forward, (fwdIn + trnIn), percent);
   driveRightFront.spin(forward, (fwdIn - trnIn), percent);
 }
-
-void rampUp(float maxSpeed){
-  float currentSpeed = 0;
-  for(int i; i <= maxSpeed, i++;){
-    currentSpeed++;
-    arcadeDrive(currentSpeed, 0);
-  }
-  arcadeDrive(maxSpeed, 0);
-}
-
 void driveControl(float fwdIn, float trnIn){
  float fwdVal;
  float trnVal; 
   if (fabs(fwdIn) >= 15 ){
-    fwdVal = fwdIn;
+    fwdVal = fwdIn- 13;
 
   }
-  else if(fabs(trnIn) >= 15 ){
+  else if(fabs(trnIn) >= 29 ){
     trnVal = trnIn;
   }
   else{ 
@@ -137,12 +135,6 @@ void driveControl(float fwdIn, float trnIn){
      trnVal = 0;
   }
   arcadeDrive(fwdVal, trnVal);
-}
-void tankDrive(){
-  driveLeftBack.spin(forward, Controller1.Axis3.value(), percent);
-  driveLeftFront.spin(forward, Controller1.Axis3.value(), percent);
-  driveRightBack.spin(forward, Controller1.Axis2.value(), percent);
-  driveRightFront.spin(forward, Controller1.Axis2.value(), percent);
 }
 void cataControl(float time){
   if (Controller1.ButtonR1.pressing()){
