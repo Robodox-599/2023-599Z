@@ -48,18 +48,18 @@ void pre_auton(void) {
 //autonomous functions and main auton function
 
 float WheelCircumference = (4.125 * 3.1415);
-float speedFR; // creating a speed varibale to store speed accross functions 
+float currentSpeed; // creating a speed varibale to store speed accross functions 
 float revolutions2Angle; //defining later =b
 // but it is basically how many degrees the robot turns when each motor does 1 full revolution in the appropriate direction 
 // ill have to ask sam how to find this
 float rampUp(float maxSpeed){
-  float currentSpeed = 0;
+  float latestSpeed = 0;
   for(int i; i <= maxSpeed, i++;){
-    currentSpeed++;
-    speedFR = currentSpeed;
+    latestSpeed++;
+    return latestSpeed;
   }
-  speedFR = maxSpeed;
-  return speedFR;
+   latestSpeed= maxSpeed;
+  return latestSpeed;
 }
 void fwd(double distance, int speed){
   float Degree = (distance/WheelCircumference) * 360;
