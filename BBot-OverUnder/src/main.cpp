@@ -1,17 +1,4 @@
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// driveLeftBack        motor         9               
-// driveRightBack       motor         2               
-// driveLeftFront       motor         10              
-// driveRightFront      motor         1               
-// Controller1          controller                    
-// cataMotor2           motor         11              
-// pneuPiston1          digital_out   A               
-// pneuPiston2          digital_out   B               
-// cataMotor1           motor         6               
-// descorer             motor         21              
-// ---- END VEXCODE CONFIGURED DEVICES ----
+
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
 /*    Module:       main.cpp                                                  */
@@ -61,20 +48,22 @@ float rampUp(float maxSpeed){
    latestSpeed= maxSpeed;
   return latestSpeed;
 }
-void fwd(double distance, int speed){
+
+void fwd(double distance, int MaxSpeed){
   float Degree = (distance/WheelCircumference) * 360;
-  driveLeftBack.spinFor(Degree, rotationUnits::deg, rampUp(speed), velocityUnits::pct, false);
-  driveRightBack.spinFor(Degree, rotationUnits::deg, rampUp(speed), velocityUnits::pct, false);
-  driveLeftFront.spinFor(Degree, rotationUnits::deg, rampUp(speed), velocityUnits::pct, false);
-  driveRightFront.spinFor(Degree, rotationUnits::deg, rampUp(speed), velocityUnits::pct);
+  driveLeftBack.spinFor(Degree, rotationUnits::deg, rampUp(MaxSpeed), velocityUnits::pct, false);
+  driveRightBack.spinFor(Degree, rotationUnits::deg, rampUp(MaxSpeed), velocityUnits::pct, false);
+  driveLeftFront.spinFor(Degree, rotationUnits::deg, rampUp(MaxSpeed), velocityUnits::pct, false);
+  driveRightFront.spinFor(Degree, rotationUnits::deg, rampUp(MaxSpeed), velocityUnits::pct);
 }
-void rev(double distance, int speed){
+void rev(double distance, int MaxSpeed){
   float Degree = (distance/WheelCircumference) * 360;
-  driveLeftBack.spinFor(-Degree, rotationUnits::deg, rampUp(speed), velocityUnits::pct, false);
-  driveRightBack.spinFor(-Degree, rotationUnits::deg, rampUp(speed), velocityUnits::pct, false);
-  driveLeftFront.spinFor(-Degree, rotationUnits::deg, rampUp(speed), velocityUnits::pct, false);
-  driveRightFront.spinFor(-Degree, rotationUnits::deg, rampUp(speed), velocityUnits::pct);
+  driveLeftBack.spinFor(-Degree, rotationUnits::deg, rampUp(MaxSpeed), velocityUnits::pct, false);
+  driveRightBack.spinFor(-Degree, rotationUnits::deg, rampUp(MaxSpeed), velocityUnits::pct, false);
+  driveLeftFront.spinFor(-Degree, rotationUnits::deg, rampUp(MaxSpeed), velocityUnits::pct, false);
+  driveRightFront.spinFor(-Degree, rotationUnits::deg, rampUp(MaxSpeed), velocityUnits::pct);
 }
+
 void tRight(double degrees, int speed){
   float Degree = (degrees * revolutions2Angle) * 360;
   driveLeftBack.spinFor(-Degree, rotationUnits::deg, speed, velocityUnits::pct, false);
@@ -107,7 +96,6 @@ void descorerCmnd(bool val){
     descorer.spinFor(-180, rotationUnits::deg, 100, velocityUnits::pct);
   }
 }
-
 void autonomous(void) {
  
 }
@@ -120,27 +108,32 @@ void arcadeDrive(float fwdIn, float trnIn){
   driveLeftFront.spin(forward, (fwdIn + trnIn), percent);
   driveRightFront.spin(forward, (fwdIn - trnIn), percent);
 }
+
 void driveControl(float fwdIn, float trnIn){
  float fwdVal;
  float trnVal; 
   if (fabs(fwdIn) >= 15 ){
-    fwdVal = fwdIn- 13;
+    fwdVal = fwdIn-10;
 
   }
-  else if(fabs(trnIn) >= 29 ){
-    trnVal = trnIn;
+  else if(fabs(trnIn) >= 15 ){
+    trnVal = trnIn-15;
   }
   else{ 
     fwdVal = 0;
-     trnVal = 0;
+    trnVal = 0;
   }
   arcadeDrive(fwdVal, trnVal);
 }
 void cataControl(float time){
   if (Controller1.ButtonR1.pressing()){
-     cataMotor1.spinFor(-180, rotationUnits::deg, 65, velocityUnits::pct, false);
-     cataMotor1.spinFor(-180, rotationUnits::deg, 65, velocityUnits::pct);
-     wait(time, msec);
+    cataMotor1.spinFor(-180, rotationUnits::deg, 65, velocityUnits::pct, false);
+    cataMotor2.spinFor(180, rotationUnits::deg, 65, velocityUnits::pct);
+    wait(time, msec);
+  } else if (Controller1.ButtonR2.pressing()){
+    cataMotor1.spinFor(-90, rotationUnits::deg, 65, velocityUnits::pct, false);
+    cataMotor2.spinFor(90, rotationUnits::deg, 65, velocityUnits::pct);
+    wait(time, msec);
   } else {
      cataMotor1.stop(brakeType:: coast); 
      cataMotor2.stop(brakeType:: coast);
@@ -165,14 +158,11 @@ void flapsControlOff(){
 }
 void usercontrol(void) {
   while (1) {
-    // arcade drive code controls
-    // arcadeDrive();
-    //tank drive code controls 
-    //tankDrive();
+    //drive controls
     driveControl(Controller1.Axis3.value(), Controller1.Axis1.value());
-    // outake code controls
+    // outake controls
     cataControl(250); // change this to how much time it takes to reset the cata at the slip position
-    // flaps code controls
+    // flaps controls
     Controller1.ButtonB.pressed(flapsControlOn);
     Controller1.ButtonY.pressed(flapsControlOff);
     wait(20, msec); 
@@ -187,4 +177,3 @@ int main() {
     wait(100, msec);
   }
 }
-
