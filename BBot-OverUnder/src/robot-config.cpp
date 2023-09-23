@@ -13,11 +13,11 @@ motor driveRightBack = motor(PORT2, ratio18_1, false);
 motor driveLeftFront = motor(PORT10, ratio18_1, true);
 motor driveRightFront = motor(PORT1, ratio18_1, false);
 controller Controller1 = controller(primary);
-motor cataMotor2 = motor(PORT11, ratio36_1, false);
+motor cataMotor2 = motor(PORT11, ratio36_1, true);
 digital_out pneuPiston1 = digital_out(Brain.ThreeWirePort.A);
 digital_out pneuPiston2 = digital_out(Brain.ThreeWirePort.B);
-motor cataMotor1 = motor(PORT6, ratio36_1, true);
-motor descorer = motor(PORT21, ratio18_1, false);
+motor cataMotor1 = motor(PORT6, ratio36_1, false);
+motor descorer = motor(PORT20, ratio18_1, false);
 
 // VEXcode generated functions
 // define variable for remote controller enable/disable

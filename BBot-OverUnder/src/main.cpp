@@ -1,3 +1,73 @@
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// driveLeftBack        motor         9               
+// driveRightBack       motor         2               
+// driveLeftFront       motor         10              
+// driveRightFront      motor         1               
+// Controller1          controller                    
+// cataMotor2           motor         11              
+// pneuPiston1          digital_out   A               
+// pneuPiston2          digital_out   B               
+// cataMotor1           motor         6               
+// descorer             motor         20              
+// ---- END VEXCODE CONFIGURED DEVICES ----
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// driveLeftBack        motor         9               
+// driveRightBack       motor         2               
+// driveLeftFront       motor         10              
+// driveRightFront      motor         1               
+// Controller1          controller                    
+// cataMotor2           motor         11              
+// pneuPiston1          digital_out   A               
+// pneuPiston2          digital_out   B               
+// cataMotor1           motor         6               
+// descorer             motor         20              
+// ---- END VEXCODE CONFIGURED DEVICES ----
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// driveLeftBack        motor         9               
+// driveRightBack       motor         2               
+// driveLeftFront       motor         10              
+// driveRightFront      motor         1               
+// Controller1          controller                    
+// cataMotor2           motor         11              
+// pneuPiston1          digital_out   A               
+// pneuPiston2          digital_out   B               
+// cataMotor1           motor         6               
+// descorer             motor         20              
+// ---- END VEXCODE CONFIGURED DEVICES ----
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// driveLeftBack        motor         9               
+// driveRightBack       motor         2               
+// driveLeftFront       motor         10              
+// driveRightFront      motor         1               
+// Controller1          controller                    
+// cataMotor2           motor         11              
+// pneuPiston1          digital_out   A               
+// pneuPiston2          digital_out   B               
+// cataMotor1           motor         6               
+// descorer             motor         20              
+// ---- END VEXCODE CONFIGURED DEVICES ----
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// driveLeftBack        motor         9               
+// driveRightBack       motor         2               
+// driveLeftFront       motor         10              
+// driveRightFront      motor         1               
+// Controller1          controller                    
+// cataMotor2           motor         11              
+// pneuPiston1          digital_out   A               
+// pneuPiston2          digital_out   B               
+// cataMotor1           motor         6               
+// descorer             motor         17              
+// ---- END VEXCODE CONFIGURED DEVICES ----
 
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
@@ -127,12 +197,8 @@ void driveControl(float fwdIn, float trnIn){
 }
 void cataControl(float time){
   if (Controller1.ButtonR1.pressing()){
-    cataMotor1.spinFor(-180, rotationUnits::deg, 65, velocityUnits::pct, false);
+    cataMotor1.spinFor(180, rotationUnits::deg, 65, velocityUnits::pct, false);
     cataMotor2.spinFor(180, rotationUnits::deg, 65, velocityUnits::pct);
-    wait(time, msec);
-  } else if (Controller1.ButtonR2.pressing()){
-    cataMotor1.spinFor(-90, rotationUnits::deg, 65, velocityUnits::pct, false);
-    cataMotor2.spinFor(90, rotationUnits::deg, 65, velocityUnits::pct);
     wait(time, msec);
   } else {
      cataMotor1.stop(brakeType:: coast); 
@@ -165,6 +231,8 @@ void usercontrol(void) {
     // flaps controls
     Controller1.ButtonB.pressed(flapsControlOn);
     Controller1.ButtonY.pressed(flapsControlOff);
+    //descorer controls
+    descorerControls();
     wait(20, msec); 
   }
 }
