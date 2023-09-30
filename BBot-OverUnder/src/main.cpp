@@ -131,6 +131,26 @@ void flapsControlOff(){
   pneuPiston1.set(false); 
   pneuPiston2.set(false);
 }
+void slowDrive(){
+  if (Controller1.ButtonLeft.pressing()){
+    driveLeftBack.spin(forward, 20, percent);
+    driveRightBack.spin(forward, -20, percent);
+    driveLeftFront.spin(forward, 20, percent);
+    driveRightFront.spin(forward, -20, percent);
+
+  } else if (Controller1.ButtonRight.pressing()){
+      driveLeftBack.spin(forward, -20, percent);
+      driveRightBack.spin(forward, 20, percent);
+      driveLeftFront.spin(forward, -20, percent);
+      driveRightFront.spin(forward, 20, percent);
+
+  } else{
+      driveLeftBack.spin(forward, 0, percent);
+      driveRightBack.spin(forward, 0, percent);
+      driveLeftFront.spin(forward, 0, percent);
+      driveRightFront.spin(forward, 0, percent);
+  }
+}
 void arcadeDrive(float fwdIn, float trnIn){
 //motorYouWantToSpin.spin(direction, speed, velocity type)
   driveLeftBack.spin(forward, (fwdIn + trnIn), percent);
@@ -158,6 +178,8 @@ void usercontrol(void) {
   while (1) {
     //drive controls
     driveControl(Controller1.Axis3.value(), Controller1.Axis1.value());
+    //slow arrow drive
+    slowDrive();
     // outake controls
     cataControl(200); // change this to how much time it takes to reset the cata at the slip position
     // flaps controls
