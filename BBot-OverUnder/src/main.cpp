@@ -121,16 +121,16 @@ void flapsControlOff(){
 }
 void slowDrive(){
   if (Controller1.ButtonDown.pressing()){
+    driveLeftBack.spin(forward, -20, percent);
+    driveRightBack.spin(forward, 20, percent);
+    driveLeftFront.spin(forward, -20, percent);
+    driveRightFront.spin(forward, 20, percent);
+
+  } else if (Controller1.ButtonRight.pressing()){
     driveLeftBack.spin(forward, 20, percent);
     driveRightBack.spin(forward, -20, percent);
     driveLeftFront.spin(forward, 20, percent);
     driveRightFront.spin(forward, -20, percent);
-
-  } else if (Controller1.ButtonRight.pressing()){
-      driveLeftBack.spin(forward, -20, percent);
-      driveRightBack.spin(forward, 20, percent);
-      driveLeftFront.spin(forward, -20, percent);
-      driveRightFront.spin(forward, 20, percent);
   } else{
 
   }
@@ -147,13 +147,12 @@ void driveControl(float fwdIn, float trnIn){
  float trnVal; 
   if (fabs(fwdIn) >= 15 ){
     fwdVal = fwdIn-10;
-
+  } else { 
+    trnVal = 0;
   }
-  else if(fabs(trnIn) >= 15 ){
+  if(fabs(trnIn) >= 15 ){
     trnVal = trnIn-15;
-  }
-  else{ 
-    fwdVal = 0;
+  } else { 
     trnVal = 0;
   }
   arcadeDrive(fwdVal, trnVal);
