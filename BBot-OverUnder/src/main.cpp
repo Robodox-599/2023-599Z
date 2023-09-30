@@ -1,25 +1,16 @@
-/*----------------------------------------------------------------------------*/
-/*                                                                            */
-/*    Module:       main.cpp                                                  */
-/*    Author:       VEX                                                       */
-/*    Created:      Thu Sep 26 2019                                           */
-/*    Description:  Competition Template                                      */
-/*                                                                            */
-/*----------------------------------------------------------------------------*/
 // ---- START VEXCODE CONFIGURED DEVICES ----
 // Robot Configuration:
 // [Name]               [Type]        [Port(s)]
-// driveLeftBack        motor         9               
-// driveRightBack       motor         2               
+// driveLeftBack        motor         2               
+// driveRightBack       motor         1               
 // driveLeftFront       motor         10              
-// driveRightFront      motor         1               
+// driveRightFront      motor         9               
 // Controller1          controller                    
-// cataMotor2           motor         11              
+// cataLeft             motor         3               
 // pneuPiston1          digital_out   A               
-// pneuPiston2          digital_out   B               
-// cataMotor1           motor         6               
+// cataRight            motor         4               
+// descorer             motor         8               
 // ---- END VEXCODE CONFIGURED DEVICES ----
-
 #include "vex.h"
 #include <cstring>
 using namespace vex;
@@ -79,12 +70,11 @@ void tLeft(double degrees, int speed){
 }
 void pistonCmnd(bool val){
   pneuPiston1.set(val);
-  pneuPiston2.set(val);
 }
 void cataRapid(int reps, float time){
   for(int i=0; reps <= i; i++){
-    cataMotor1.spinFor(-180, rotationUnits::deg, 100, velocityUnits::pct, false);
-    cataMotor1.spinFor(-180, rotationUnits::deg, 100, velocityUnits::pct);
+    cataRight.spinFor(180, rotationUnits::deg, 100, velocityUnits::pct, false);
+    cataLeft.spinFor(180, rotationUnits::deg, 100, velocityUnits::pct);
     wait(time, msec);
   }
 }
@@ -102,16 +92,16 @@ void autonomous(void) {
 // user control functions 
 void cataControl(float time){
   if (Controller1.ButtonL1.pressing()){
-    cataMotor1.spinFor(180, rotationUnits::deg, 65, velocityUnits::pct, false);
-    cataMotor2.spinFor(180, rotationUnits::deg, 65, velocityUnits::pct);
+    cataLeft.spinFor(180, rotationUnits::deg, 65, velocityUnits::pct, false);
+    cataRight.spinFor(180, rotationUnits::deg, 65, velocityUnits::pct);
     wait(time, msec);
   } else if(Controller1.ButtonL2.pressing()){
-    cataMotor1.spin(forward, 20, velocityUnits::pct);
-    cataMotor2.spin(forward, 20, velocityUnits::pct);
+    cataLeft.spin(forward, 20, velocityUnits::pct);
+    cataRight.spin(forward, 20, velocityUnits::pct);
   } 
   else {
-     cataMotor1.stop(brakeType:: coast); 
-     cataMotor2.stop(brakeType:: coast);
+     cataLeft.stop(brakeType:: coast); 
+     cataRight.stop(brakeType:: coast);
   }
 }
 void descorerControls(){
@@ -125,11 +115,25 @@ void descorerControls(){
 }
 void flapsControlOn(){
   pneuPiston1.set(true); 
-  pneuPiston2.set(true);
 }
 void flapsControlOff(){
   pneuPiston1.set(false); 
-  pneuPiston2.set(false);
+}
+void slowDrive(){
+  if (Controller1.ButtonDown.pressing()){
+    driveLeftBack.spin(forward, -20, percent);
+    driveRightBack.spin(forward, 20, percent);
+    driveLeftFront.spin(forward, -20, percent);
+    driveRightFront.spin(forward, 20, percent);
+
+  } else if (Controller1.ButtonRight.pressing()){
+    driveLeftBack.spin(forward, 20, percent);
+    driveRightBack.spin(forward, -20, percent);
+    driveLeftFront.spin(forward, 20, percent);
+    driveRightFront.spin(forward, -20, percent);
+  } else{
+
+  }
 }
 void arcadeDrive(float fwdIn, float trnIn){
 //motorYouWantToSpin.spin(direction, speed, velocity type)
@@ -143,13 +147,12 @@ void driveControl(float fwdIn, float trnIn){
  float trnVal; 
   if (fabs(fwdIn) >= 15 ){
     fwdVal = fwdIn-10;
-
-  }
-  else if(fabs(trnIn) >= 15 ){
-    trnVal = trnIn-15;
-  }
-  else{ 
+  } else { 
     fwdVal = 0;
+  }
+  if(fabs(trnIn) >= 15 ){
+    trnVal = trnIn-15;
+  } else { 
     trnVal = 0;
   }
   arcadeDrive(fwdVal, trnVal);
@@ -158,6 +161,8 @@ void usercontrol(void) {
   while (1) {
     //drive controls
     driveControl(Controller1.Axis3.value(), Controller1.Axis1.value());
+    //slow arrow drive
+    slowDrive();
     // outake controls
     cataControl(200); // change this to how much time it takes to reset the cata at the slip position
     // flaps controls
