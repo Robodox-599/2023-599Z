@@ -90,9 +90,9 @@ void cataRapid(int reps, float time){
 }
 void descorerCmnd(bool val){
   if (val){
-    descorer.spinFor(180, rotationUnits::deg, 100, velocityUnits::pct);
+    descorer.spinFor(180, rotationUnits::deg, 60, velocityUnits::pct);
   } else {
-    descorer.spinFor(-180, rotationUnits::deg, 100, velocityUnits::pct);
+    descorer.spinFor(180, rotationUnits::deg, -60, velocityUnits::pct);
   }
 }
 void autonomous(void) {
