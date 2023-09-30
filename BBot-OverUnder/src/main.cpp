@@ -148,7 +148,7 @@ void driveControl(float fwdIn, float trnIn){
   if (fabs(fwdIn) >= 15 ){
     fwdVal = fwdIn-10;
   } else { 
-    trnVal = 0;
+    fwdVal = 0;
   }
   if(fabs(trnIn) >= 15 ){
     trnVal = trnIn-15;
