@@ -100,6 +100,37 @@ void autonomous(void) {
 }
 
 // user control functions 
+void cataControl(float time){
+  if (Controller1.ButtonL1.pressing()){
+    cataMotor1.spinFor(180, rotationUnits::deg, 65, velocityUnits::pct, false);
+    cataMotor2.spinFor(180, rotationUnits::deg, 65, velocityUnits::pct);
+    wait(time, msec);
+  } else if(Controller1.ButtonL2.pressing()){
+    cataMotor1.spin(forward, 20, velocityUnits::pct);
+    cataMotor2.spin(forward, 20, velocityUnits::pct);
+  } 
+  else {
+     cataMotor1.stop(brakeType:: coast); 
+     cataMotor2.stop(brakeType:: coast);
+  }
+}
+void descorerControls(){
+  if (Controller1.ButtonR1.pressing()){
+    descorer.spin(forward, -80, velocityUnits::pct);
+   } else if (Controller1.ButtonR2.pressing()) {
+     descorer.spin(forward, 80, velocityUnits::pct);
+   } else{
+     descorer.stop(brakeType:: hold);
+   }
+}
+void flapsControlOn(){
+  pneuPiston1.set(true); 
+  pneuPiston2.set(true);
+}
+void flapsControlOff(){
+  pneuPiston1.set(false); 
+  pneuPiston2.set(false);
+}
 void arcadeDrive(float fwdIn, float trnIn){
 //motorYouWantToSpin.spin(direction, speed, velocity type)
   driveLeftBack.spin(forward, (fwdIn + trnIn), percent);
@@ -107,7 +138,6 @@ void arcadeDrive(float fwdIn, float trnIn){
   driveLeftFront.spin(forward, (fwdIn + trnIn), percent);
   driveRightFront.spin(forward, (fwdIn - trnIn), percent);
 }
-
 void driveControl(float fwdIn, float trnIn){
  float fwdVal;
  float trnVal; 
@@ -124,39 +154,12 @@ void driveControl(float fwdIn, float trnIn){
   }
   arcadeDrive(fwdVal, trnVal);
 }
-void cataControl(float time){
-  if (Controller1.ButtonR1.pressing()){
-    cataMotor1.spinFor(180, rotationUnits::deg, 65, velocityUnits::pct, false);
-    cataMotor2.spinFor(180, rotationUnits::deg, 65, velocityUnits::pct);
-    wait(time, msec);
-  } else {
-     cataMotor1.stop(brakeType:: coast); 
-     cataMotor2.stop(brakeType:: coast);
-  }
-}
-void descorerControls(){
-  if (Controller1.ButtonL1.pressing()){
-    descorer.spin(forward, -100, velocityUnits::pct);
-   } else if (Controller1.ButtonL2.pressing()) {
-     descorer.spin(forward, 100, velocityUnits::pct);
-   } else{
-     descorer.stop(brakeType:: hold);
-   }
-}
-void flapsControlOn(){
-  pneuPiston1.set(true); 
-  pneuPiston2.set(true);
-}
-void flapsControlOff(){
-  pneuPiston1.set(false); 
-  pneuPiston2.set(false);
-}
 void usercontrol(void) {
   while (1) {
     //drive controls
     driveControl(Controller1.Axis3.value(), Controller1.Axis1.value());
     // outake controls
-    cataControl(250); // change this to how much time it takes to reset the cata at the slip position
+    cataControl(200); // change this to how much time it takes to reset the cata at the slip position
     // flaps controls
     Controller1.ButtonB.pressed(flapsControlOn);
     Controller1.ButtonY.pressed(flapsControlOff);
