@@ -90,10 +90,23 @@ void autonomous(void) {
 }
 
 // user control functions 
+float cataPos(bool pick){
+  if (pick){
+    float rightPos = cataRight.position(degrees);
+    float changeRight = (180-rightPos);
+    return changeRight;
+  } else{
+    float leftPos = cataLeft.position(degrees);
+    float changeLeft = (180-leftPos);
+    return changeLeft;
+  }
+}
 void cataControl(float time){
   if (Controller1.ButtonL1.pressing()){
-    cataLeft.spinFor(180, rotationUnits::deg, 65, velocityUnits::pct, false);
-    cataRight.spinFor(180, rotationUnits::deg, 65, velocityUnits::pct);
+    cataLeft.spinFor((cataPos(true)), rotationUnits::deg, 65, velocityUnits::pct, false);
+    cataRight.spinFor((cataPos(false)), rotationUnits::deg, 65, velocityUnits::pct);
+    cataLeft.setPosition(0, degrees);
+    cataRight.setPosition(0, degrees);
     wait(time, msec);
   } else if(Controller1.ButtonL2.pressing()){
     cataLeft.spin(forward, 20, velocityUnits::pct);
