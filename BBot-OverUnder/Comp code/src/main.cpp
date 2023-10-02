@@ -49,7 +49,7 @@ ZERO_TRACKER_NO_ODOM,
 motor_group(LB, LF),
 
 //Right Motors:
-motor_group(RB, Rf),
+motor_group(RB, RF),
 
 //Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
 PORT1,
