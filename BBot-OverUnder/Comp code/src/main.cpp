@@ -224,8 +224,10 @@ void cataControl(float time){
 }
 void intakeControls(){
   if (Controller1.ButtonR1.pressing()){
+    wait(85, msec);
     intakeMotor.spin(forward, -80, velocityUnits::pct);
    } else if (Controller1.ButtonR2.pressing()) {
+     wait(85, msec);
      intakeMotor.spin(forward, 80, velocityUnits::pct);
    } else{
      intakeMotor.stop(brakeType:: hold);
@@ -233,11 +235,11 @@ void intakeControls(){
 }
 float intakePos(bool pick){
   if(pick){
-    float intakePos = cataRight.position(degrees);
+    float intakePos = intakeMotor.position(degrees);
     float changePosForUp = (31-intakePos);
     return changePosForUp;
   } else{
-    float intakePos = cataRight.position(degrees);
+    float intakePos = intakeMotor.position(degrees);
     float changePosForDown = (134-intakePos);
     return changePosForDown;
   }
