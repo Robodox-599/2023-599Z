@@ -180,7 +180,6 @@ void autonomous(void) {
       tank_odom_test();
       break;
     case 3:
-      holonomic_odom_test();
       break;
  }
 }
@@ -229,29 +228,14 @@ void intakeControls(){
    } else if (Controller1.ButtonR2.pressing()) {
      wait(85, msec);
      intakeMotor.spin(forward, 80, velocityUnits::pct);
+   } else if(Controller1.ButtonX.pressing()){
+   intakeMotor.spinToPosition(31, rotationUnits::deg, 80,  velocityUnits::pct);
+   } else if (Controller1.ButtonA.pressing()){
+   intakeMotor.spinToPosition(134, rotationUnits::deg, 80,  velocityUnits::pct);
    } else{
      intakeMotor.stop(brakeType:: hold);
    }
 }
-float intakePos(bool pick){
-  if(pick){
-    float intakePos = intakeMotor.position(degrees);
-    float changePosForUp = (31-intakePos);
-    return changePosForUp;
-  } else{
-    float intakePos = intakeMotor.position(degrees);
-    float changePosForDown = (134-intakePos);
-    return changePosForDown;
-  }
-}
-
-void intakeUp(){
-  intakeMotor.spinFor((intakePos(true)), rotationUnits::deg, 100, velocityUnits::pct, false);
-}
-void intakeDown(){
-  intakeMotor.spinFor((intakePos(false)), rotationUnits::deg, 100, velocityUnits::pct, true);
-}
-
 void flapsControlOn(){
   wingsPiston.set(true); 
 }
@@ -309,8 +293,7 @@ void usercontrol(void) {
     Controller1.ButtonY.pressed(flapsControlOff);
     //descorer controls
     intakeControls();
-    Controller1.ButtonUp.pressed(intakeUp);
-    Controller1.ButtonLeft.pressed(intakeDown);
+   
     wait(20, msec); 
   }
 }
