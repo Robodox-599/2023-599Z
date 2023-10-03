@@ -171,27 +171,15 @@ void autonomous(void) {
   auto_started = true;
   switch(current_auton_selection){  
     case 0:
-      drive_test(); //This is the default auton, if you don't select from the brain.
+      offensiveAuton(); //This is the default auton, if you don't select from the brain.
       break;        //Change these to be your own auton functions in order to use the auton selector.
     case 1:         //Tap the screen to cycle through autons.
-      drive_test();
+      defensiveAuton();
       break;
     case 2:
-      turn_test();
-      break;
-    case 3:
-      swing_test();
-      break;
-    case 4:
-      full_test();
-      break;
-    case 5:
-      odom_test();
-      break;
-    case 6:
       tank_odom_test();
       break;
-    case 7:
+    case 3:
       holonomic_odom_test();
       break;
  }
@@ -254,12 +242,14 @@ float intakePos(bool pick){
     return changePosForDown;
   }
 }
+
 void intakeUp(){
-  intakeMotor.spinFor((intakePos(true)), rotationUnits::deg, 100, velocityUnits::pct, true);
+  intakeMotor.spinFor((intakePos(true)), rotationUnits::deg, 100, velocityUnits::pct, false);
 }
 void intakeDown(){
   intakeMotor.spinFor((intakePos(false)), rotationUnits::deg, 100, velocityUnits::pct, true);
 }
+
 void flapsControlOn(){
   wingsPiston.set(true); 
 }

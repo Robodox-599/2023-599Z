@@ -16,34 +16,29 @@ void odom_constants(){
   chassis.drive_settle_error = 3;
 }
 
-void drive_test(){
-  chassis.drive_distance(6);
-  chassis.drive_distance(12);
-  chassis.drive_distance(18);
-  chassis.drive_distance(-36);
-}
-
-void turn_test(){
-  chassis.turn_to_angle(5);
-  chassis.turn_to_angle(30);
-  chassis.turn_to_angle(90);
-  chassis.turn_to_angle(225);
-  chassis.turn_to_angle(0);
-}
-
-void swing_test(){
-  chassis.left_swing_to_angle(90);
-  chassis.right_swing_to_angle(0);
-}
-
-void full_test(){
+void offensiveAuton(){
+  intakeMotor.spinFor(134, rotationUnits::deg, 100, velocityUnits::pct, true);
   chassis.drive_distance(45);
   chassis.turn_to_angle(90);
+  intakeMotor.spinFor(31, rotationUnits::deg, 100, velocityUnits::pct, true);
+  chassis.drive_distance(12);
+  chassis.turn_to_angle(270);
+  chassis.drive_distance(22.5);
+  chassis.turn_to_angle(90);
+  
+}
+
+void defensiveAuton(){
+  intakeMotor.spinFor(134, rotationUnits::deg, 100, velocityUnits::pct, true);
+  chassis.drive_distance(45);
+  chassis.turn_to_angle(90);
+  intakeMotor.spinFor(31, rotationUnits::deg, 100, velocityUnits::pct, true);
   chassis.drive_distance(12);
   chassis.turn_to_angle(180);
   chassis.drive_distance(22.5);
   chassis.turn_to_angle(0);
 }
+
 
 void odom_test(){
   chassis.set_coordinates(0, 0, 0);
@@ -64,13 +59,4 @@ void tank_odom_test(){
   chassis.drive_to_point(24,24);
   chassis.drive_to_point(0,0);
   chassis.turn_to_angle(0);
-}
-
-void holonomic_odom_test(){
-  odom_constants();
-  chassis.set_coordinates(0, 0, 0);
-  chassis.holonomic_drive_to_point(0, 18, 90);
-  chassis.holonomic_drive_to_point(18, 0, 180);
-  chassis.holonomic_drive_to_point(0, 18, 270);
-  chassis.holonomic_drive_to_point(0, 0, 0);
 }
