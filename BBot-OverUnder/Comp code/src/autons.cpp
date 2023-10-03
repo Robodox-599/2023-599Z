@@ -37,11 +37,11 @@ void swing_test(){
 }
 
 void full_test(){
-  chassis.drive_distance(24);
-  chassis.turn_to_angle(-45);
-  chassis.drive_distance(-36);
-  chassis.right_swing_to_angle(-90);
-  chassis.drive_distance(24);
+  chassis.drive_distance(45);
+  chassis.turn_to_angle(90);
+  chassis.drive_distance(12);
+  chassis.turn_to_angle(180);
+  chassis.drive_distance(22.5);
   chassis.turn_to_angle(0);
 }
 
@@ -61,7 +61,6 @@ void odom_test(){
 void tank_odom_test(){
   odom_constants();
   chassis.set_coordinates(0, 0, 0);
-  chassis.turn_to_point(24, 24);
   chassis.drive_to_point(24,24);
   chassis.drive_to_point(0,0);
   chassis.turn_to_angle(0);

@@ -1,3 +1,17 @@
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// Controller1          controller                    
+// LB                   motor         2               
+// RB                   motor         1               
+// LF                   motor         10              
+// RF                   motor         9               
+// cataLeft             motor         3               
+// cataRight            motor         4               
+// intakeMotor          motor         8               
+// wingsPiston          digital_out   A               
+// Inertial7            inertial      7               
+// ---- END VEXCODE CONFIGURED DEVICES ----
 #include "vex.h"
 
 // ---- START VEXCODE CONFIGURED DEVICES ----
@@ -52,7 +66,7 @@ motor_group(LB, LF),
 motor_group(RB, RF),
 
 //Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
-PORT1,
+PORT7,
 
 //Input your wheel diameter. (4" omnis are actually closer to 4.125"):
 4.125,
@@ -60,7 +74,7 @@ PORT1,
 //External ratio, must be in decimal, in the format of input teeth/output teeth.
 //If your motor has an 84-tooth gear and your wheel has a 60-tooth gear, this value will be 1.4.
 //If the motor drives the wheel directly, this value is 1:
-0.6,
+1.5,
 
 //Gyro scale, this is what your gyro reads when you spin the robot 360 degrees.
 //For most cases 360 will do fine here, but this scale factor can be very helpful when precision is necessary.
@@ -220,7 +234,7 @@ void cataControl(float time){
      cataRight.stop(brakeType:: coast);
   }
 }
-void descorerControls(){
+void intakeControls(){
   if (Controller1.ButtonR1.pressing()){
     intakeMotor.spin(forward, -80, velocityUnits::pct);
    } else if (Controller1.ButtonR2.pressing()) {
@@ -228,6 +242,23 @@ void descorerControls(){
    } else{
      intakeMotor.stop(brakeType:: hold);
    }
+}
+float intakePos(bool pick){
+  if(pick){
+    float intakePos = cataRight.position(degrees);
+    float changePosForUp = (31-intakePos);
+    return changePosForUp;
+  } else{
+    float intakePos = cataRight.position(degrees);
+    float changePosForDown = (134-intakePos);
+    return changePosForDown;
+  }
+}
+void intakeUp(){
+  intakeMotor.spinFor((intakePos(true)), rotationUnits::deg, 100, velocityUnits::pct, true);
+}
+void intakeDown(){
+  intakeMotor.spinFor((intakePos(false)), rotationUnits::deg, 100, velocityUnits::pct, true);
 }
 void flapsControlOn(){
   wingsPiston.set(true); 
@@ -285,7 +316,9 @@ void usercontrol(void) {
     Controller1.ButtonB.pressed(flapsControlOn);
     Controller1.ButtonY.pressed(flapsControlOff);
     //descorer controls
-    descorerControls();
+    intakeControls();
+    Controller1.ButtonUp.pressed(intakeUp);
+    Controller1.ButtonLeft.pressed(intakeDown);
     wait(20, msec); 
   }
 }
