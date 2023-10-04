@@ -19,13 +19,13 @@ void odom_constants(){
 void offensiveAuton(){
   intakeMotor.spinToPosition(134, rotationUnits::deg, 100, velocityUnits::pct, true);
   chassis.drive_distance(45);
-  chassis.turn_to_angle(90);
+  chassis.turn_to_angle(90, 12, 2, 200, 1000);
   intakeMotor.spinToPosition(31, rotationUnits::deg, 100, velocityUnits::pct, true);
-  chassis.drive_distance(12);
-  chassis.turn_to_angle(90);
-  chassis.turn_to_angle(90);
+  chassis.drive_distance(4);
+  chassis.drive_distance(-4);
+  chassis.turn_to_angle(270, 12, 2, 200, 1000);
   chassis.drive_distance(22.5);
-  chassis.turn_to_angle(90);
+  chassis.turn_to_angle(90, 12, 2, 200, 4000);
   
 }
 
