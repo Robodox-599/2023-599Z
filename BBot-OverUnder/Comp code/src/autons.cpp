@@ -3,7 +3,7 @@
 void default_constants(){
   chassis.set_drive_constants(10, 1.5, 0, 10, 0);
   chassis.set_heading_constants(6, .4, 0, 1, 0);
-  chassis.set_turn_constants(12, .4, .03, 3, 15);
+  chassis.set_turn_constants(12, .3, .03, 6, 15);
   chassis.set_swing_constants(12, .3, .001, 2, 15);
   chassis.set_drive_exit_conditions(1.5, 300, 5000);
   chassis.set_turn_exit_conditions(1, 300, 3000);
@@ -17,15 +17,20 @@ void odom_constants(){
 }
 
 void offensiveAuton(){
-  intakeMotor.spinToPosition(134, rotationUnits::deg, 100, velocityUnits::pct, true);
-  chassis.drive_distance(45);
-  chassis.turn_to_angle(90, 12, 2, 200, 1000);
-  intakeMotor.spinToPosition(31, rotationUnits::deg, 100, velocityUnits::pct, true);
-  chassis.drive_distance(4);
-  chassis.drive_distance(-4);
-  chassis.turn_to_angle(270, 12, 2, 200, 1000);
-  chassis.drive_distance(22.5);
-  chassis.turn_to_angle(90, 12, 2, 200, 4000);
+  intakeMotor.spinToPosition(160, rotationUnits::deg, 100, velocityUnits::pct, true);
+  chassis.drive_distance(47);
+  chassis.turn_to_angle(90);
+  intakeMotor.spinToPosition(50, rotationUnits::deg, 100, velocityUnits::pct, true);
+  chassis.drive_distance(15);
+  chassis.drive_distance(-12);
+  chassis.turn_to_angle(325);
+  chassis.drive_distance(9);
+  intakeMotor.spinToPosition(160, rotationUnits::deg, 100, velocityUnits::pct, true);
+  chassis.turn_to_angle(90);
+  intakeMotor.spinToPosition(50, rotationUnits::deg, 100, velocityUnits::pct, true);
+  chassis.drive_distance(15);
+  // chassis.drive_distance(22.5);
+  // chassis.turn_to_angle(90);
   
 }
 

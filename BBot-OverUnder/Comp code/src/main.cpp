@@ -229,9 +229,9 @@ void intakeControls(){
      wait(85, msec);
      intakeMotor.spin(forward, 80, velocityUnits::pct);
    } else if(Controller1.ButtonX.pressing()){
-   intakeMotor.spinToPosition(31, rotationUnits::deg, 80,  velocityUnits::pct);
+   intakeMotor.spinToPosition(50, rotationUnits::deg, 80,  velocityUnits::pct);
    } else if (Controller1.ButtonA.pressing()){
-   intakeMotor.spinToPosition(134, rotationUnits::deg, 80,  velocityUnits::pct);
+   intakeMotor.spinToPosition(160, rotationUnits::deg, 80,  velocityUnits::pct);
    } else{
      intakeMotor.stop(brakeType:: hold);
    }
