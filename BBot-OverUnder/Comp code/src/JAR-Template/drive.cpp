@@ -120,7 +120,6 @@ void Drive::turn_to_angle(float angle, float turn_max_voltage, float turn_settle
     float output = turnPID.compute(error);
     output = clamp(output, -turn_max_voltage, turn_max_voltage);
     drive_with_voltage(output, -output);
-    task::sleep(10);
   }
   DriveL.stop(hold);
   DriveR.stop(hold);
@@ -159,7 +158,6 @@ void Drive::drive_distance(float distance, float heading, float drive_max_voltag
     heading_output = clamp(heading_output, -heading_max_voltage, heading_max_voltage);
 
     drive_with_voltage(drive_output+heading_output, drive_output-heading_output);
-    task::sleep(10);
   }
   DriveL.stop(hold);
   DriveR.stop(hold);
@@ -178,7 +176,6 @@ void Drive::left_swing_to_angle(float angle, float swing_max_voltage, float swin
     output = clamp(output, -turn_max_voltage, turn_max_voltage);
     DriveL.spin(fwd, output, volt);
     DriveR.stop(hold);
-    task::sleep(10);
   }
   DriveL.stop(hold);
   DriveR.stop(hold);
@@ -197,7 +194,6 @@ void Drive::right_swing_to_angle(float angle, float swing_max_voltage, float swi
     output = clamp(output, -turn_max_voltage, turn_max_voltage);
     DriveR.spin(reverse, output, volt);
     DriveL.stop(hold);
-    task::sleep(10);
   }
   DriveL.stop(hold);
   DriveR.stop(hold);
