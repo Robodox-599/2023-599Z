@@ -16,21 +16,6 @@ void odom_constants(){
   chassis.drive_settle_error = 3;
 }
 
-void offensiveAuton(){
-  intakeMotor.spinToPosition(160, rotationUnits::deg, 100, velocityUnits::pct, true);
-  chassis.drive_distance(47);
-  chassis.turn_to_angle(90);
-  intakeMotor.spinToPosition(50, rotationUnits::deg, 100, velocityUnits::pct, true);
-  chassis.drive_distance(15);
-  chassis.drive_distance(-12);
-  chassis.turn_to_angle(325);
-  chassis.drive_distance(9);
-  intakeMotor.spinToPosition(160, rotationUnits::deg, 100, velocityUnits::pct, true);
-  chassis.turn_to_angle(90);
-  intakeMotor.spinToPosition(50, rotationUnits::deg, 100, velocityUnits::pct, true);
-  chassis.drive_distance(15); 
-}
-
 void kansasAuton(){
   wingsPiston.set(true); 
   wait(100, msec);
@@ -53,7 +38,35 @@ void kansasAuton(){
   intakeMotor.spinToPosition(50, rotationUnits::deg, 100, velocityUnits::pct, true);
   chassis.drive_distance(12);
 }
-
+void defAuton(){
+  intakeMotor.spinToPosition(160, rotationUnits::deg, 100, velocityUnits::pct, true);
+  chassis.drive_distance(20);
+  intakeMotor.spinToPosition(50, rotationUnits::deg, 100, velocityUnits::pct, true);
+  chassis.drive_distance(12);
+  chassis.drive_distance(-12);
+  chassis.turn_to_angle(180);
+  chassis.drive_distance(20);
+  intakeMotor.spinToPosition(160, rotationUnits::deg, 100, velocityUnits::pct, true);
+  chassis.turn_to_angle(75);
+  chassis.drive_distance(34);
+  intakeMotor.spinToPosition(50, rotationUnits::deg, 100, velocityUnits::pct, true);
+}
+void memeAuton(){
+  intakeMotor.spinToPosition(160, rotationUnits::deg, 100, velocityUnits::pct, true);
+  chassis.drive_distance(20);
+  intakeMotor.spinToPosition(50, rotationUnits::deg, 100, velocityUnits::pct, true);
+  chassis.drive_distance(12);
+  chassis.drive_distance(-12);
+  chassis.turn_to_angle(180);
+  chassis.drive_distance(20);
+  intakeMotor.spinToPosition(160, rotationUnits::deg, 100, velocityUnits::pct, true);
+  chassis.turn_to_angle(110);
+  chassis.drive_distance(60);
+  chassis.turn_to_angle(70);
+  wingsPiston.set(true); 
+  chassis.drive_distance(10);
+  chassis.drive_distance(10);
+}
 
 void odom_test(){
   chassis.set_coordinates(0, 0, 0);
