@@ -5,9 +5,9 @@ void default_constants(){
   chassis.set_heading_constants(6, .4, 0, 1, 0);
   chassis.set_turn_constants(12, .3, .03, 6, 15);
   chassis.set_swing_constants(12, .3, .001, 2, 15);
-  chassis.set_drive_exit_conditions(1.5, 200, 1000);
-  chassis.set_turn_exit_conditions(1, 200, 1000);
-  chassis.set_swing_exit_conditions(1, 300, 3000);
+  chassis.set_drive_exit_conditions(1.5, 250, 4000);
+  chassis.set_turn_exit_conditions(1, 250, 1500);
+  chassis.set_swing_exit_conditions(1, 300, 2000);
 }
 
 void odom_constants(){
@@ -28,23 +28,30 @@ void offensiveAuton(){
   intakeMotor.spinToPosition(160, rotationUnits::deg, 100, velocityUnits::pct, true);
   chassis.turn_to_angle(90);
   intakeMotor.spinToPosition(50, rotationUnits::deg, 100, velocityUnits::pct, true);
-  chassis.drive_distance(15);
-  // chassis.drive_distance(22.5);
-  // chassis.turn_to_angle(90);
-  
+  chassis.drive_distance(15); 
 }
 
-void defensiveAuton(){
-  intakeMotor.spinToPosition(134, rotationUnits::deg, 100, velocityUnits::pct, true);
-  chassis.drive_distance(45);
-  chassis.turn_to_angle(270);
-  intakeMotor.spinToPosition(31, rotationUnits::deg, 100, velocityUnits::pct, true);
+void kansasAuton(){
+  wingsPiston.set(true); 
+  wait(100, msec);
+  wingsPiston.set(false); 
+  chassis.drive_distance(61);
+  intakeMotor.spinToPosition(160, rotationUnits::deg, 100, velocityUnits::pct, true);
+  chassis.turn_to_angle(120);
+  wingsPiston.set(true); 
   chassis.drive_distance(12);
-  chassis.turn_to_angle(180);
+  intakeMotor.spinToPosition(50, rotationUnits::deg, 100, velocityUnits::pct, true);
+  chassis.drive_distance(20);
+  wingsPiston.set(false); 
+  chassis.drive_distance(-12);
+  chassis.turn_to_angle(275);
+  chassis.drive_distance(22);
+  intakeMotor.spinToPosition(160, rotationUnits::deg, 100, velocityUnits::pct, true);
+  chassis.turn_to_angle(150);
+  chassis.drive_distance(50);
+  chassis.turn_to_angle(76.5);
+  intakeMotor.spinToPosition(50, rotationUnits::deg, 100, velocityUnits::pct, true);
   chassis.drive_distance(12);
-  chassis.turn_to_angle(270);
-  chassis.drive_distance(45);
-  
 }
 
 
