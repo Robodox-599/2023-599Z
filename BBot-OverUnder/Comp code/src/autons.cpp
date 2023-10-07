@@ -20,21 +20,20 @@ void kansasAuton(){
   wingsPiston.set(true); 
   wait(100, msec);
   wingsPiston.set(false); 
-  chassis.drive_distance(61);
+  chassis.drive_distance(59);
   intakeMotor.spinToPosition(160, rotationUnits::deg, 100, velocityUnits::pct, true);
   chassis.turn_to_angle(120);
   wingsPiston.set(true); 
-  chassis.drive_distance(12);
   intakeMotor.spinToPosition(50, rotationUnits::deg, 100, velocityUnits::pct, true);
-  chassis.drive_distance(20);
+  chassis.drive_distance(32);
   wingsPiston.set(false); 
   chassis.drive_distance(-12);
   chassis.turn_to_angle(275);
-  chassis.drive_distance(22);
+  chassis.drive_distance(21);
   intakeMotor.spinToPosition(160, rotationUnits::deg, 100, velocityUnits::pct, true);
   chassis.turn_to_angle(150);
-  chassis.drive_distance(50);
-  chassis.turn_to_angle(76.5);
+  chassis.drive_distance(51);
+  chassis.turn_to_angle(390);
   intakeMotor.spinToPosition(50, rotationUnits::deg, 100, velocityUnits::pct, true);
   chassis.drive_distance(12);
 }
