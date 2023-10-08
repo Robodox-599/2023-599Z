@@ -244,16 +244,16 @@ void flapsControlOff(){
 }
 void slowDrive(){
   if (Controller1.ButtonDown.pressing()){
-    LB.spin(forward, -20, percent);
-    RB.spin(forward, 20, percent);
-    LF.spin(forward, -20, percent);
-    RF.spin(forward, 20, percent);
+    LB.spin(forward, -15, percent);
+    RB.spin(forward, 15, percent);
+    LF.spin(forward, -15, percent);
+    RF.spin(forward, 15, percent);
 
   } else if (Controller1.ButtonRight.pressing()){
-    LB.spin(forward, 20, percent);
-    RB.spin(forward, -20, percent);
-    LF.spin(forward, 20, percent);
-    RF.spin(forward, -20, percent);
+    LB.spin(forward, 15, percent);
+    RB.spin(forward, -15, percent);
+    LF.spin(forward, 15, percent);
+    RF.spin(forward, -15, percent);
   } else{
 
   }
@@ -273,8 +273,8 @@ void driveControl(float fwdIn, float trnIn){
   } else { 
     fwdVal = 0;
   }
-  if(fabs(trnIn) >= 15 ){
-    trnVal = trnIn-15;
+  if(fabs(trnIn) >= 20 ){
+    trnVal = trnIn-20;
   } else { 
     trnVal = 0;
   }
