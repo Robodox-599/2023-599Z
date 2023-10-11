@@ -17,37 +17,36 @@ void odom_constants(){
 }
 
 void kansasAuton(){
+  intakeMotor.setPosition(0, degrees);
   wingsPiston.set(true); 
   wait(100, msec);
   wingsPiston.set(false); 
   chassis.drive_distance(59);
-  intakeMotor.spinToPosition(160, rotationUnits::deg, 100, velocityUnits::pct, true);
+  intakeMotor.spinToPosition(155, rotationUnits::deg, 100, velocityUnits::pct, true);
   chassis.turn_to_angle(120);
   wingsPiston.set(true); 
-  intakeMotor.spinToPosition(50, rotationUnits::deg, 100, velocityUnits::pct, true);
+  intakeMotor.spinToPosition(30, rotationUnits::                                                                   deg, 100, velocityUnits::pct, true);
   chassis.drive_distance(32);
   wingsPiston.set(false); 
   chassis.drive_distance(-12);
   chassis.turn_to_angle(275);
-  chassis.drive_distance(21);
-  intakeMotor.spinToPosition(160, rotationUnits::deg, 100, velocityUnits::pct, true);
+  chassis.drive_distance(24);
+  intakeMotor.spinToPosition(155, rotationUnits::deg, 100, velocityUnits::pct, true);
   chassis.turn_to_angle(150);
   chassis.drive_distance(51);
   chassis.turn_to_angle(390);
-  intakeMotor.spinToPosition(50, rotationUnits::deg, 100, velocityUnits::pct, true);
+  intakeMotor.spinToPosition(30, rotationUnits::deg, 100, velocityUnits::pct, true);
   chassis.drive_distance(12);
 }
 void defAuton(){
-  intakeMotor.spinToPosition(160, rotationUnits::deg, 100, velocityUnits::pct, true);
-  chassis.drive_distance(20);
-  intakeMotor.spinToPosition(50, rotationUnits::deg, 100, velocityUnits::pct, true);
-  chassis.drive_distance(12);
-  chassis.drive_distance(-12);
-  chassis.turn_to_angle(180);
-  chassis.drive_distance(20);
-  intakeMotor.spinToPosition(160, rotationUnits::deg, 100, velocityUnits::pct, true);
-  chassis.turn_to_angle(75);
-  chassis.drive_distance(34);
+  chassis.drive_distance(35);
+  chassis.drive_distance(-25);
+  chassis.turn_to_angle(90);
+  chassis.turn_to_angle(270);
+  chassis.drive_distance(10);
+  intakeMotor.spinToPosition(155, rotationUnits::deg, 100, velocityUnits::pct, true);
+  chassis.turn_to_angle(-90);
+  chassis.drive_distance(30);
   intakeMotor.spinToPosition(50, rotationUnits::deg, 100, velocityUnits::pct, true);
 }
 void memeAuton(){
