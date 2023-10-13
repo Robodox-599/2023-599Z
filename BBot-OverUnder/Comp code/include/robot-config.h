@@ -13,6 +13,7 @@ extern motor cataRight;
 extern motor intakeMotor;
 extern digital_out wingsPiston;
 extern inertial Inertial7;
+extern digital_out climbPiston;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.

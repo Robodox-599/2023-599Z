@@ -11,6 +11,21 @@
 // intakeMotor          motor         8               
 // wingsPiston          digital_out   A               
 // Inertial7            inertial      7               
+// climbPiston          digital_out   B               
+// ---- END VEXCODE CONFIGURED DEVICES ----
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// Controller1          controller                    
+// LB                   motor         2               
+// RB                   motor         1               
+// LF                   motor         10              
+// RF                   motor         9               
+// cataLeft             motor         3               
+// cataRight            motor         4               
+// intakeMotor          motor         8               
+// wingsPiston          digital_out   A               
+// Inertial7            inertial      7               
 // ---- END VEXCODE CONFIGURED DEVICES ----
 #include "vex.h"
 
@@ -126,6 +141,7 @@ bool auto_started = false;
 
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
+  bool pistonExtended = false;
   vexcodeInit();
   default_constants();
 
@@ -133,28 +149,10 @@ void pre_auton(void) {
     Brain.Screen.clearScreen();            //brain screen for auton selection.
     switch(current_auton_selection){       //Tap the brain screen to cycle through autons.
       case 0:
-        Brain.Screen.printAt(50, 50, "Drive Test");
+        Brain.Screen.printAt(50, 50, "OFFENSIVE AUTON");
         break;
       case 1:
-        Brain.Screen.printAt(50, 50, "Drive Test");
-        break;
-      case 2:
-        Brain.Screen.printAt(50, 50, "Turn Test");
-        break;
-      case 3:
-        Brain.Screen.printAt(50, 50, "Swing Test");
-        break;
-      case 4:
-        Brain.Screen.printAt(50, 50, "Full Test");
-        break;
-      case 5:
-        Brain.Screen.printAt(50, 50, "Odom Test");
-        break;
-      case 6:
-        Brain.Screen.printAt(50, 50, "Tank Odom Test");
-        break;
-      case 7:
-        Brain.Screen.printAt(50, 50, "Holonomic Odom Test");
+        Brain.Screen.printAt(50, 50, "DEFENSIVE AUTON");
         break;
     }
     if(Brain.Screen.pressing()){
@@ -174,7 +172,7 @@ void autonomous(void) {
       kansasAuton(); //This is the default auton, if you don't select from the brain.
       break;        //Change these to be your own auton functions in order to use the auton selector.
     case 1:         //Tap the screen to cycle through autons.
-     // defensiveAuton();
+      defensiveAuton();
       break;
     case 2:
       tank_odom_test();
@@ -230,8 +228,6 @@ void intakeControls(){
      intakeMotor.spin(forward, 80, velocityUnits::pct);
    } else if(Controller1.ButtonX.pressing()){
    intakeMotor.spinToPosition(50, rotationUnits::deg, 80,  velocityUnits::pct);
-   } else if (Controller1.ButtonA.pressing()){
-   intakeMotor.spinToPosition(160, rotationUnits::deg, 80,  velocityUnits::pct);
    } else{
      intakeMotor.stop(brakeType:: hold);
    }
@@ -242,6 +238,28 @@ void flapsControlOn(){
 void flapsControlOff(){
   wingsPiston.set(false); 
 }
+bool set(){
+  return true;
+}
+
+
+void controlPiston(bool extend) {
+    if (extend && !pistonExtended) {
+        climbPiston.set(true);
+        pistonExtended = true;
+    } else if (!extend && pistonExtended) {
+        climbPiston.set(false);
+        pistonExtended = false;
+    }
+}
+void piston(bool extend) {
+    if (extend) {
+        climbPiston.set(true);
+    } else {
+        climbPiston.set(false);
+    }
+}
+
 void slowDrive(){
   if (Controller1.ButtonDown.pressing()){
     LB.spin(forward, -15, percent);
@@ -291,6 +309,7 @@ void usercontrol(void) {
     // flaps controls
     Controller1.ButtonB.pressed(flapsControlOn);
     Controller1.ButtonY.pressed(flapsControlOff);
+    Controller1.ButtonA.pressed(set);
     //descorer controls
     intakeControls();
    

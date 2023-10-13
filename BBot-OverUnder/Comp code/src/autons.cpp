@@ -38,32 +38,12 @@ void kansasAuton(){
   intakeMotor.spinToPosition(30, rotationUnits::deg, 100, velocityUnits::pct, true);
   chassis.drive_distance(12);
 }
-void defAuton(){
+void defensiveAuton(){
   chassis.drive_distance(35);
-  chassis.drive_distance(-25);
+  chassis.drive_distance(-30);
   chassis.turn_to_angle(90);
-  chassis.turn_to_angle(270);
-  chassis.drive_distance(10);
-  intakeMotor.spinToPosition(155, rotationUnits::deg, 100, velocityUnits::pct, true);
-  chassis.turn_to_angle(-90);
-  chassis.drive_distance(30);
+  chassis.drive_distance(40);
   intakeMotor.spinToPosition(50, rotationUnits::deg, 100, velocityUnits::pct, true);
-}
-void memeAuton(){
-  intakeMotor.spinToPosition(160, rotationUnits::deg, 100, velocityUnits::pct, true);
-  chassis.drive_distance(20);
-  intakeMotor.spinToPosition(50, rotationUnits::deg, 100, velocityUnits::pct, true);
-  chassis.drive_distance(12);
-  chassis.drive_distance(-12);
-  chassis.turn_to_angle(180);
-  chassis.drive_distance(20);
-  intakeMotor.spinToPosition(160, rotationUnits::deg, 100, velocityUnits::pct, true);
-  chassis.turn_to_angle(110);
-  chassis.drive_distance(60);
-  chassis.turn_to_angle(70);
-  wingsPiston.set(true); 
-  chassis.drive_distance(10);
-  chassis.drive_distance(10);
 }
 
 void odom_test(){
