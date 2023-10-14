@@ -141,7 +141,6 @@ bool auto_started = false;
 
 void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
-  bool pistonExtended = false;
   vexcodeInit();
   default_constants();
 
@@ -213,8 +212,7 @@ void cataControl(float time){
   } else if(Controller1.ButtonL2.pressing()){
     cataLeft.spin(forward, 20, velocityUnits::pct);
     cataRight.spin(forward, 20, velocityUnits::pct);
-  } 
-  else {
+  } else {
      cataLeft.stop(brakeType:: coast); 
      cataRight.stop(brakeType:: coast);
   }
@@ -226,8 +224,6 @@ void intakeControls(){
    } else if (Controller1.ButtonR2.pressing()) {
      wait(85, msec);
      intakeMotor.spin(forward, 80, velocityUnits::pct);
-   } else if(Controller1.ButtonX.pressing()){
-   intakeMotor.spinToPosition(50, rotationUnits::deg, 80,  velocityUnits::pct);
    } else{
      intakeMotor.stop(brakeType:: hold);
    }
@@ -238,35 +234,12 @@ void flapsControlOn(){
 void flapsControlOff(){
   wingsPiston.set(false); 
 }
-bool set(){
-  return true;
-}
-
-
-void controlPiston(bool extend) {
-    if (extend && !pistonExtended) {
-        climbPiston.set(true);
-        pistonExtended = true;
-    } else if (!extend && pistonExtended) {
-        climbPiston.set(false);
-        pistonExtended = false;
-    }
-}
-void piston(bool extend) {
-    if (extend) {
-        climbPiston.set(true);
-    } else {
-        climbPiston.set(false);
-    }
-}
-
 void slowDrive(){
   if (Controller1.ButtonDown.pressing()){
     LB.spin(forward, -15, percent);
     RB.spin(forward, 15, percent);
     LF.spin(forward, -15, percent);
     RF.spin(forward, 15, percent);
-
   } else if (Controller1.ButtonRight.pressing()){
     LB.spin(forward, 15, percent);
     RB.spin(forward, -15, percent);
@@ -298,6 +271,16 @@ void driveControl(float fwdIn, float trnIn){
   }
   arcadeDrive(fwdVal, trnVal);
 }
+int pressed = 0;
+void press(){
+  pressed += 1;
+  if (pressed== 1){
+    climbPiston.set(true);
+  } else if (pressed > 1){
+    pressed = 0;
+    climbPiston.set(false);
+  }
+}
 void usercontrol(void) {
   while (1) {
     //drive controls
@@ -309,7 +292,8 @@ void usercontrol(void) {
     // flaps controls
     Controller1.ButtonB.pressed(flapsControlOn);
     Controller1.ButtonY.pressed(flapsControlOff);
-    Controller1.ButtonA.pressed(set);
+    // climb controls
+    Controller1.ButtonA.pressed(press);
     //descorer controls
     intakeControls();
    
