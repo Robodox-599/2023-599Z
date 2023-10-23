@@ -198,7 +198,7 @@ float cataPos(bool pick){
     return changeLeft; // returns the angle to be used in the cataControl function
   }
 }
-void cataControl(float time){
+void cataControl(float times){
   // catapult control function
   // function takes in time to see how long it has to wait before running the commands again. 
   if (Controller1.ButtonL1.pressing()){
@@ -209,7 +209,7 @@ void cataControl(float time){
     cataRight.spinFor((cataPos(false)), rotationUnits::deg, 65, velocityUnits::pct); // turns the perfect amount to get to 180.
     cataLeft.setPosition(0, degrees); // resets encoder position to 0
     cataRight.setPosition(0, degrees); // resets encoder position to 0
-    wait(time, msec); // waits set amount of time that was passed as a parameter before running it again
+    task::sleep(times);// waits set amount of time that was passed as a parameter before running it again
   } else if(Controller1.ButtonL2.pressing()){
     // if the l2 button is pressed it will give driver custom slow control commands on catapult 
     cataLeft.spin(forward, 20, velocityUnits::pct); // spins amount up to driver at a 20% speed
@@ -254,21 +254,21 @@ void slowDrive(){
 }
 void arcadeDrive(float fwdIn, float trnIn){
 //motorYouWantToSpin.spin(direction, speed, velocity type)
-  LB.spin(forward, (fwdIn + trnIn), percent);
-  RB.spin(forward, (fwdIn - trnIn), percent);
-  LF.spin(forward, (fwdIn + trnIn), percent);
-  RF.spin(forward, (fwdIn - trnIn), percent);
+  LB.spin(forward, (fwdIn + trnIn), percent); // uses parameters as input to determine the speed in percent for the motor 
+  RB.spin(forward, (fwdIn - trnIn), percent); // uses parameters as input to determine the speed in percent for the motor 
+  LF.spin(forward, (fwdIn + trnIn), percent); // uses parameters as input to determine the speed in percent for the motor 
+  RF.spin(forward, (fwdIn - trnIn), percent); // uses parameters as input to determine the speed in percent for the motor 
 }
 void driveControl(float fwdIn, float trnIn){
- float fwdVal;
+ float fwdVal; 
  float trnVal; 
   if (fabs(fwdIn) >= 15 ){
-    fwdVal = fwdIn-10;
+    fwdVal = fwdIn*.90;
   } else { 
     fwdVal = 0;
   }
   if(fabs(trnIn) >= 20 ){
-    trnVal = trnIn-20;
+    trnVal = trnIn*.80;
   } else { 
     trnVal = 0;
   }
