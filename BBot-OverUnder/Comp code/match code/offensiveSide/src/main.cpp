@@ -11,6 +11,21 @@
 // intakeMotor          motor         8               
 // wingsPiston          digital_out   A               
 // Inertial7            inertial      7               
+// blockerPiston        digital_out   B               
+// ---- END VEXCODE CONFIGURED DEVICES ----
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// Controller1          controller                    
+// LB                   motor         2               
+// RB                   motor         1               
+// LF                   motor         10              
+// RF                   motor         9               
+// cataLeft             motor         3               
+// cataRight            motor         4               
+// intakeMotor          motor         8               
+// wingsPiston          digital_out   A               
+// Inertial7            inertial      7               
 // climbPiston          digital_out   B               
 // ---- END VEXCODE CONFIGURED DEVICES ----
 // ---- START VEXCODE CONFIGURED DEVICES ----
@@ -171,6 +186,7 @@ void autonomous(void) {
       kansasAuton(); //This is the default auton, if you don't select from the brain.
       break;        //Change these to be your own auton functions in order to use the auton selector.
     case 1:         //Tap the screen to cycle through autons.
+      defensiveAuton();
       break;
 
  }
@@ -278,10 +294,10 @@ int pressed = 0;
 void press(){
   pressed += 1;
   if (pressed== 1){
-    climbPiston.set(true);
+    blockerPiston.set(true);
   } else if (pressed > 1){
     pressed = 0;
-    climbPiston.set(false);
+    blockerPiston.set(false);
   }
 }
 void usercontrol(void) {
@@ -295,7 +311,7 @@ void usercontrol(void) {
     // flaps controls
     Controller1.ButtonB.pressed(flapsControlOn);
     Controller1.ButtonY.pressed(flapsControlOff);
-    // climb controls
+    // blocker controls
     Controller1.ButtonA.pressed(press);
     //descorer controls
     intakeControls();

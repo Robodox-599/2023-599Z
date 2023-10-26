@@ -18,7 +18,7 @@ motor cataRight = motor(PORT4, ratio36_1, false);
 motor intakeMotor = motor(PORT8, ratio18_1, false);
 digital_out wingsPiston = digital_out(Brain.ThreeWirePort.A);
 inertial Inertial7 = inertial(PORT7);
-digital_out climbPiston = digital_out(Brain.ThreeWirePort.B);
+digital_out blockerPiston = digital_out(Brain.ThreeWirePort.B);
 
 // VEXcode generated functions
 // define variable for remote controller enable/disable

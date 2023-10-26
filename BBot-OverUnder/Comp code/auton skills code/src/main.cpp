@@ -1,47 +1,4 @@
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// Controller1          controller                    
-// LB                   motor         2               
-// RB                   motor         1               
-// LF                   motor         10              
-// RF                   motor         9               
-// cataLeft             motor         3               
-// cataRight            motor         4               
-// intakeMotor          motor         8               
-// wingsPiston          digital_out   A               
-// Inertial7            inertial      7               
-// climbPiston          digital_out   B               
-// ---- END VEXCODE CONFIGURED DEVICES ----
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// Controller1          controller                    
-// LB                   motor         2               
-// RB                   motor         1               
-// LF                   motor         10              
-// RF                   motor         9               
-// cataLeft             motor         3               
-// cataRight            motor         4               
-// intakeMotor          motor         8               
-// wingsPiston          digital_out   A               
-// Inertial7            inertial      7               
-// ---- END VEXCODE CONFIGURED DEVICES ----
 #include "vex.h"
-
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// Controller1          controller                    
-// LB                   motor         2               
-// RB                   motor         1               
-// LF                   motor         10              
-// RF                   motor         9               
-// cataLeft             motor         3               
-// cataRight            motor         4               
-// intakeMotor          motor         8               
-// wingsPiston          digital_out   A               
-// ---- END VEXCODE CONFIGURED DEVICES ----
 
 using namespace vex;
 competition Competition;
@@ -75,21 +32,21 @@ ZERO_TRACKER_NO_ODOM,
 //You will input whatever motor names you chose when you configured your robot using the sidebar configurer, they don't have to be "Motor1" and "Motor2".
 
 //Left Motors:
-motor_group(LB, LF),
+motor_group(),
 
 //Right Motors:
-motor_group(RB, RF),
+motor_group(),
 
 //Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
-PORT7,
+PORT1,
 
 //Input your wheel diameter. (4" omnis are actually closer to 4.125"):
-4.125,
+3.25,
 
 //External ratio, must be in decimal, in the format of input teeth/output teeth.
 //If your motor has an 84-tooth gear and your wheel has a 60-tooth gear, this value will be 1.4.
 //If the motor drives the wheel directly, this value is 1:
-1.5,
+0.6,
 
 //Gyro scale, this is what your gyro reads when you spin the robot 360 degrees.
 //For most cases 360 will do fine here, but this scale factor can be very helpful when precision is necessary.
@@ -148,10 +105,28 @@ void pre_auton(void) {
     Brain.Screen.clearScreen();            //brain screen for auton selection.
     switch(current_auton_selection){       //Tap the brain screen to cycle through autons.
       case 0:
-        Brain.Screen.printAt(50, 50, "OFFENSIVE AUTON");
+        Brain.Screen.printAt(50, 50, "Drive Test");
         break;
       case 1:
-        Brain.Screen.printAt(50, 50, "DEFENSIVE AUTON");
+        Brain.Screen.printAt(50, 50, "Drive Test");
+        break;
+      case 2:
+        Brain.Screen.printAt(50, 50, "Turn Test");
+        break;
+      case 3:
+        Brain.Screen.printAt(50, 50, "Swing Test");
+        break;
+      case 4:
+        Brain.Screen.printAt(50, 50, "Full Test");
+        break;
+      case 5:
+        Brain.Screen.printAt(50, 50, "Odom Test");
+        break;
+      case 6:
+        Brain.Screen.printAt(50, 50, "Tank Odom Test");
+        break;
+      case 7:
+        Brain.Screen.printAt(50, 50, "Holonomic Odom Test");
         break;
     }
     if(Brain.Screen.pressing()){
@@ -168,11 +143,29 @@ void autonomous(void) {
   auto_started = true;
   switch(current_auton_selection){  
     case 0:
-      defensiveAuton(); //This is the default auton, if you don't select from the brain.
+      drive_test(); //This is the default auton, if you don't select from the brain.
       break;        //Change these to be your own auton functions in order to use the auton selector.
     case 1:         //Tap the screen to cycle through autons.
+      drive_test();
       break;
-
+    case 2:
+      turn_test();
+      break;
+    case 3:
+      swing_test();
+      break;
+    case 4:
+      full_test();
+      break;
+    case 5:
+      odom_test();
+      break;
+    case 6:
+      tank_odom_test();
+      break;
+    case 7:
+      holonomic_odom_test();
+      break;
  }
 }
 
@@ -180,128 +173,46 @@ void autonomous(void) {
 /*                                                                           */
 /*                              User Control Task                            */
 /*                                                                           */
-/*  This task is used  to control your robot during the user control phase of */
+/*  This task is used to control your robot during the user control phase of */
 /*  a VEX Competition.                                                       */
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-float cataPos(bool pick){
-  if (pick){
-    float rightPos = cataRight.position(degrees);
-    float changeRight = (180-rightPos);
-    return changeRight;
-  } else{
-    float leftPos = cataLeft.position(degrees);
-    float changeLeft = (180-leftPos);
-    return changeLeft;
-  }
-}
-void cataControl(float time){
-  if (Controller1.ButtonL1.pressing()){
-    cataLeft.spinFor((cataPos(true)), rotationUnits::deg, 65, velocityUnits::pct, false);
-    cataRight.spinFor((cataPos(false)), rotationUnits::deg, 65, velocityUnits::pct);
-    cataLeft.setPosition(0, degrees);
-    cataRight.setPosition(0, degrees);
-    wait(time, msec);
-  } else if(Controller1.ButtonL2.pressing()){
-    cataLeft.spin(forward, 20, velocityUnits::pct);
-    cataRight.spin(forward, 20, velocityUnits::pct);
-  } else {
-     cataLeft.stop(brakeType:: coast); 
-     cataRight.stop(brakeType:: coast);
-  }
-}
-void intakeControls(){
-  if (Controller1.ButtonR1.pressing()){
-    wait(85, msec);
-    intakeMotor.spin(forward, -80, velocityUnits::pct);
-   } else if (Controller1.ButtonR2.pressing()) {
-     wait(85, msec);
-     intakeMotor.spin(forward, 80, velocityUnits::pct);
-   } else{
-     intakeMotor.stop(brakeType:: hold);
-   }
-}
-void flapsControlOn(){
-  wingsPiston.set(true); 
-}
-void flapsControlOff(){
-  wingsPiston.set(false); 
-}
-void slowDrive(){
-  if (Controller1.ButtonDown.pressing()){
-    LB.spin(forward, -15, percent);
-    RB.spin(forward, 15, percent);
-    LF.spin(forward, -15, percent);
-    RF.spin(forward, 15, percent);
-  } else if (Controller1.ButtonRight.pressing()){
-    LB.spin(forward, 15, percent);
-    RB.spin(forward, -15, percent);
-    LF.spin(forward, 15, percent);
-    RF.spin(forward, -15, percent);
-  } else{
-
-  }
-}
-void arcadeDrive(float fwdIn, float trnIn){
-//motorYouWantToSpin.spin(direction, speed, velocity type)
-  LB.spin(forward, (fwdIn + trnIn), percent);
-  RB.spin(forward, (fwdIn - trnIn), percent);
-  LF.spin(forward, (fwdIn + trnIn), percent);
-  RF.spin(forward, (fwdIn - trnIn), percent);
-}
-void driveControl(float fwdIn, float trnIn){
- float fwdVal;
- float trnVal; 
-  if (fabs(fwdIn) >= 15 ){
-    fwdVal = fwdIn-10;
-  } else { 
-    fwdVal = 0;
-  }
-  if(fabs(trnIn) >= 20 ){
-    trnVal = trnIn-20;
-  } else { 
-    trnVal = 0;
-  }
-  arcadeDrive(fwdVal, trnVal);
-}
-int pressed = 0;
-void press(){
-  pressed += 1;
-  if (pressed== 1){
-    climbPiston.set(true);
-  } else if (pressed > 1){
-    pressed = 0;
-    climbPiston.set(false);
-  }
-}
 void usercontrol(void) {
+  // User control code here, inside the loop
   while (1) {
-    //drive controls
-    driveControl(Controller1.Axis3.value(), Controller1.Axis1.value());
-    //slow arrow drive
-    slowDrive();
-    // outake controls
-    cataControl(200); // change this to how much time it takes to reset the cata at the slip position
-    // flaps controls
-    Controller1.ButtonB.pressed(flapsControlOn);
-    Controller1.ButtonY.pressed(flapsControlOff);
-    // climb controls
-    Controller1.ButtonA.pressed(press);
-    //descorer controls
-    intakeControls();
-   
-    wait(20, msec); 
+    // This is the main execution loop for the user control program.
+    // Each time through the loop your program should update motor + servo
+    // values based on feedback from the joysticks.
+
+    // ........................................................................
+    // Insert user code here. This is where you use the joystick values to
+    // update your motors, etc.
+    // ........................................................................
+
+    //Replace this line with chassis.control_tank(); for tank drive 
+    //or chassis.control_holonomic(); for holo drive.
+    chassis.control_arcade();
+
+    wait(20, msec); // Sleep the task for a short amount of time to
+                    // prevent wasted resources.
   }
 }
-//main function
+
+//
+// Main will set up the competition functions and callbacks.
+//
 int main() {
+  // Set up callbacks for autonomous and driver control periods.
   Competition.autonomous(autonomous);
   Competition.drivercontrol(usercontrol);
+
+  // Run the pre-autonomous function.
   pre_auton();
+
+  // Prevent main from exiting with an infinite loop.
   while (true) {
     wait(100, msec);
   }
 }
-
