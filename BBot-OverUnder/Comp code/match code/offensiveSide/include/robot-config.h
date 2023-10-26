@@ -12,7 +12,7 @@ extern motor cataLeft;
 extern motor cataRight;
 extern motor intakeMotor;
 extern digital_out wingsPiston;
-extern inertial Inertial7;
+extern inertial Inertial3;
 extern digital_out blockerPiston;
 
 /**
