@@ -19,6 +19,7 @@ motor intakeMotor = motor(PORT10, ratio18_1, false);
 digital_out wingsPiston = digital_out(Brain.ThreeWirePort.A);
 inertial Inertial3 = inertial(PORT3);
 digital_out blockerPiston = digital_out(Brain.ThreeWirePort.B);
+limit LimitSwitchC = limit(Brain.ThreeWirePort.C);
 
 // VEXcode generated functions
 // define variable for remote controller enable/disable

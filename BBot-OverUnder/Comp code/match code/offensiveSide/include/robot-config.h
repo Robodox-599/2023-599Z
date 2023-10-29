@@ -14,6 +14,7 @@ extern motor intakeMotor;
 extern digital_out wingsPiston;
 extern inertial Inertial3;
 extern digital_out blockerPiston;
+extern limit LimitSwitchC;
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.
