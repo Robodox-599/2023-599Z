@@ -22,28 +22,54 @@ void kansasAuton(){
   wait(100, msec);
   wingsPiston.set(false); 
   chassis.drive_distance(59);
-  intakeMotor.spinToPosition(155, rotationUnits::deg, 100, velocityUnits::pct, true);
+  intakeMotor.spinToPosition(-110, rotationUnits::deg, 100, velocityUnits::pct, true);
   chassis.turn_to_angle(120);
   wingsPiston.set(true); 
-  intakeMotor.spinToPosition(30, rotationUnits::deg, 100, velocityUnits::pct, true);
+  intakeMotor.spinToPosition(-26, rotationUnits::deg, 100, velocityUnits::pct, true);
   chassis.drive_distance(32);
   wingsPiston.set(false); 
   chassis.drive_distance(-12);
   chassis.turn_to_angle(275);
   chassis.drive_distance(25);
-  intakeMotor.spinToPosition(155, rotationUnits::deg, 100, velocityUnits::pct, true);
+  intakeMotor.spinToPosition(-110, rotationUnits::deg, 100, velocityUnits::pct, true);
   chassis.turn_to_angle(150);
   chassis.drive_distance(51);
   chassis.turn_to_angle(395);
-  intakeMotor.spinToPosition(30, rotationUnits::deg, 100, velocityUnits::pct, true);
+  intakeMotor.spinToPosition(-26, rotationUnits::deg, 100, velocityUnits::pct, true);
   chassis.drive_distance(14);
 }
-void defensiveAuton(){
-  chassis.drive_distance(35);
-  chassis.drive_distance(-35);
-  intakeMotor.spinToPosition(150, rotationUnits::deg, 100, velocityUnits::pct, true);
-  chassis.turn_to_angle(90);
+
+void defensiveAutonV1(){
+  intakeMotor.spinFor(-110, rotationUnits::deg, 100, velocityUnits::pct, true);
+  chassis.drive_distance(-12);
+  chassis.turn_to_angle(-90);
+  wingsPiston.set(true); 
+  intakeMotor.spinFor(110, rotationUnits::deg, 100, velocityUnits::pct, true);
+  chassis.drive_distance(39);
+  chassis.drive_distance(-25);
+  chassis.turn_to_angle(15);
 }
+
+
+void defensiveAutonV2(){
+  intakeMotor.spinFor(-110, rotationUnits::deg, 100, velocityUnits::pct, true);
+  chassis.drive_distance(-12);
+  chassis.turn_to_angle(-90);
+  wingsPiston.set(true); 
+  chassis.drive_distance(-39);
+  chassis.drive_distance(45);
+  wingsPiston.set(false);
+  chassis.turn_to_angle(220);
+  intakeMotor.spinFor(110, rotationUnits::deg, 100, velocityUnits::pct, true);
+  chassis.drive_distance(35);
+}
+
+void defensiveAuton(){
+  defensiveAutonV2();
+
+}
+
+
 
 void odom_test(){
   chassis.set_coordinates(0, 0, 0);

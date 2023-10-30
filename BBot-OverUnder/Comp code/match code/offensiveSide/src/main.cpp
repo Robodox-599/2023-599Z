@@ -13,231 +13,7 @@
 // Inertial3            inertial      3               
 // blockerPiston        digital_out   B               
 // ---- END VEXCODE CONFIGURED DEVICES ----
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// Controller1          controller                    
-// LB                   motor         13              
-// RB                   motor         12              
-// LF                   motor         11              
-// RF                   motor         2               
-// cataLeft             motor         14              
-// cataRight            motor         1               
-// intakeMotor          motor         10              
-// wingsPiston          digital_out   A               
-// Inertial21           inertial      21              
-// blockerPiston        digital_out   B               
-// ---- END VEXCODE CONFIGURED DEVICES ----
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// Controller1          controller                    
-// LB                   motor         13              
-// RB                   motor         12              
-// LF                   motor         11              
-// RF                   motor         2               
-// cataLeft             motor         14              
-// cataRight            motor         4               
-// intakeMotor          motor         10              
-// wingsPiston          digital_out   A               
-// Inertial21           inertial      21              
-// blockerPiston        digital_out   B               
-// ---- END VEXCODE CONFIGURED DEVICES ----
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// Controller1          controller                    
-// LB                   motor         13              
-// RB                   motor         12              
-// LF                   motor         11              
-// RF                   motor         2               
-// cataLeft             motor         1               
-// cataRight            motor         4               
-// intakeMotor          motor         10              
-// wingsPiston          digital_out   A               
-// Inertial21           inertial      21              
-// blockerPiston        digital_out   B               
-// ---- END VEXCODE CONFIGURED DEVICES ----
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// Controller1          controller                    
-// LB                   motor         13              
-// RB                   motor         12              
-// LF                   motor         11              
-// RF                   motor         2               
-// cataLeft             motor         3               
-// cataRight            motor         4               
-// intakeMotor          motor         10              
-// wingsPiston          digital_out   A               
-// Inertial21           inertial      21              
-// blockerPiston        digital_out   B               
-// ---- END VEXCODE CONFIGURED DEVICES ----
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// Controller1          controller                    
-// LB                   motor         13              
-// RB                   motor         12              
-// LF                   motor         11              
-// RF                   motor         2               
-// cataLeft             motor         3               
-// cataRight            motor         4               
-// intakeMotor          motor         10              
-// wingsPiston          digital_out   A               
-// Inertial7            inertial      7               
-// blockerPiston        digital_out   B               
-// ---- END VEXCODE CONFIGURED DEVICES ----
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// Controller1          controller                    
-// LB                   motor         13              
-// RB                   motor         12              
-// LF                   motor         11              
-// RF                   motor         2               
-// cataLeft             motor         3               
-// cataRight            motor         4               
-// intakeMotor          motor         8               
-// wingsPiston          digital_out   A               
-// Inertial7            inertial      7               
-// blockerPiston        digital_out   B               
-// ---- END VEXCODE CONFIGURED DEVICES ----
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// Controller1          controller                    
-// LB                   motor         13              
-// RB                   motor         12              
-// LF                   motor         10              
-// RF                   motor         2               
-// cataLeft             motor         3               
-// cataRight            motor         4               
-// intakeMotor          motor         8               
-// wingsPiston          digital_out   A               
-// Inertial7            inertial      7               
-// blockerPiston        digital_out   B               
-// ---- END VEXCODE CONFIGURED DEVICES ----
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// Controller1          controller                    
-// LB                   motor         13              
-// RB                   motor         1               
-// LF                   motor         10              
-// RF                   motor         2               
-// cataLeft             motor         3               
-// cataRight            motor         4               
-// intakeMotor          motor         8               
-// wingsPiston          digital_out   A               
-// Inertial7            inertial      7               
-// blockerPiston        digital_out   B               
-// ---- END VEXCODE CONFIGURED DEVICES ----
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// Controller1          controller                    
-// LB                   motor         18              
-// RB                   motor         1               
-// LF                   motor         10              
-// RF                   motor         2               
-// cataLeft             motor         3               
-// cataRight            motor         4               
-// intakeMotor          motor         8               
-// wingsPiston          digital_out   A               
-// Inertial7            inertial      7               
-// blockerPiston        digital_out   B               
-// ---- END VEXCODE CONFIGURED DEVICES ----
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// Controller1          controller                    
-// LB                   motor         18              
-// RB                   motor         1               
-// LF                   motor         10              
-// RF                   motor         19              
-// cataLeft             motor         3               
-// cataRight            motor         4               
-// intakeMotor          motor         8               
-// wingsPiston          digital_out   A               
-// Inertial7            inertial      7               
-// blockerPiston        digital_out   B               
-// ---- END VEXCODE CONFIGURED DEVICES ----
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// Controller1          controller                    
-// LB                   motor         2               
-// RB                   motor         1               
-// LF                   motor         10              
-// RF                   motor         19              
-// cataLeft             motor         3               
-// cataRight            motor         4               
-// intakeMotor          motor         8               
-// wingsPiston          digital_out   A               
-// Inertial7            inertial      7               
-// blockerPiston        digital_out   B               
-// ---- END VEXCODE CONFIGURED DEVICES ----
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// Controller1          controller                    
-// LB                   motor         2               
-// RB                   motor         1               
-// LF                   motor         10              
-// RF                   motor         9               
-// cataLeft             motor         3               
-// cataRight            motor         4               
-// intakeMotor          motor         8               
-// wingsPiston          digital_out   A               
-// Inertial7            inertial      7               
-// blockerPiston        digital_out   B               
-// ---- END VEXCODE CONFIGURED DEVICES ----
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// Controller1          controller                    
-// LB                   motor         2               
-// RB                   motor         1               
-// LF                   motor         10              
-// RF                   motor         9               
-// cataLeft             motor         3               
-// cataRight            motor         4               
-// intakeMotor          motor         8               
-// wingsPiston          digital_out   A               
-// Inertial7            inertial      7               
-// climbPiston          digital_out   B               
-// ---- END VEXCODE CONFIGURED DEVICES ----
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// Controller1          controller                    
-// LB                   motor         2               
-// RB                   motor         1               
-// LF                   motor         10              
-// RF                   motor         9               
-// cataLeft             motor         3               
-// cataRight            motor         4               
-// intakeMotor          motor         8               
-// wingsPiston          digital_out   A               
-// Inertial7            inertial      7               
-// ---- END VEXCODE CONFIGURED DEVICES ----
 #include "vex.h"
-
-// ---- START VEXCODE CONFIGURED DEVICES ----
-// Robot Configuration:
-// [Name]               [Type]        [Port(s)]
-// Controller1          controller                    
-// LB                   motor         2               
-// RB                   motor         1               
-// LF                   motor         10              
-// RF                   motor         9               
-// cataLeft             motor         3               
-// cataRight            motor         4               
-// intakeMotor          motor         8               
-// wingsPiston          digital_out   A               
-// ---- END VEXCODE CONFIGURED DEVICES ----
-
 using namespace vex;
 competition Competition;
 
@@ -276,7 +52,7 @@ motor_group(LB, LF),
 motor_group(RB, RF),
 
 //Specify the PORT NUMBER of your inertial sensor, in PORT format (i.e. "PORT1", not simply "1"):
-PORT7,
+PORT3,
 
 //Input your wheel diameter. (4" omnis are actually closer to 4.125"):
 4.125,
@@ -363,12 +139,11 @@ void autonomous(void) {
   auto_started = true;
   switch(current_auton_selection){  
     case 0:
-      kansasAuton(); //This is the default auton, if you don't select from the brain.
+      defensiveAuton(); //This is the default auton, if you don't select from the brain.
       break;        //Change these to be your own auton functions in order to use the auton selector.
     case 1:         //Tap the screen to cycle through autons.
       defensiveAuton();
       break;
-
  }
 }
 
