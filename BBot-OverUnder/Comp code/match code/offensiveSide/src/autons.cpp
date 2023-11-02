@@ -1,5 +1,7 @@
 #include "vex.h"
 
+
+// constants and other useful functions for auton
 void default_constants(){
   chassis.set_drive_constants(12, 1.5, 0, 10, 0);
   chassis.set_heading_constants(12, .4, 0, 1, 0);
@@ -9,13 +11,34 @@ void default_constants(){
   chassis.set_turn_exit_conditions(1, 250, 1500);
   chassis.set_swing_exit_conditions(1, 300, 2000);
 }
-
 void odom_constants(){
   default_constants();
   chassis.drive_max_voltage = 8;
   chassis.drive_settle_error = 3;
 }
 
+float cataPosition(bool pick){
+  // if pick is true then it will do the right motor position but if it is false then it will do the left motor position
+  if (pick){
+    float rightPos = cataRight.position(degrees); // gets right motor encoder position and sets it to a variable
+    float changeRight = (180-rightPos); // calculates the angle to turn to get to 180 from the motor encoder
+    return changeRight; // returns the angle to be used in the cataControl function
+  } else{
+    float leftPos = cataLeft.position(degrees); // gets left motor encoder position and sets it to a variable
+    float changeLeft = (180-leftPos); // calculates the angle to turn to get to 180 from the motor encoder
+    return changeLeft; // returns the angle to be used in the cataControl function
+  }
+}
+void cataControls(float times){
+  // catapult control function
+  // function takes in time to see how long it has to wait before running the commands again. 
+  cataLeft.spinFor((cataPosition(true)), rotationUnits::deg, 65, velocityUnits::pct, false); // turns the perfect amount to get to 180
+  cataRight.spinFor((cataPosition(false)), rotationUnits::deg, 65, velocityUnits::pct); // turns the perfect amount to get to 180.
+  cataLeft.setPosition(0, degrees); // resets encoder position to 0
+  cataRight.setPosition(0, degrees); // resets encoder position to 0
+  this_thread::sleep_for(times);// waits set amount of time that was passed as a parameter before running it again
+}
+// real autons down here
 void kansasAuton(){
   intakeMotor.setPosition(0, degrees);
   wingsPiston.set(true); 
@@ -39,19 +62,7 @@ void kansasAuton(){
   chassis.drive_distance(14);
 }
 
-void defensiveAutonV1(){
-  intakeMotor.spinFor(-110, rotationUnits::deg, 100, velocityUnits::pct, true);
-  chassis.drive_distance(-12);
-  chassis.turn_to_angle(-90);
-  wingsPiston.set(true); 
-  intakeMotor.spinFor(110, rotationUnits::deg, 100, velocityUnits::pct, true);
-  chassis.drive_distance(39);
-  chassis.drive_distance(-25);
-  chassis.turn_to_angle(15);
-}
-
-
-void defensiveAutonV2(){
+void defensiveAuton(){
   intakeMotor.spinFor(-110, rotationUnits::deg, 100, velocityUnits::pct, true);
   chassis.drive_distance(-10);
   chassis.turn_to_angle(-90);
@@ -64,10 +75,28 @@ void defensiveAutonV2(){
   chassis.drive_distance(35);
 }
 
-void defensiveAuton(){
-  defensiveAutonV2();
+void autonSkills(){
+    chassis.drive_distance(35);
+  chassis.drive_distance(-8);
+  chassis.turn_to_angle(100);
+  chassis.drive_distance(-12);
+  for(int i=0; i<=44; i++){
+  cataControls(100);
+  }
+  chassis.drive_distance(70);
+  wingsPiston.set(true); 
+  chassis.turn_to_angle(90);
 
-}
+ }
+
+
+
+//useless stuff down heree 
+
+
+
+
+
 
 
 
@@ -82,12 +111,4 @@ void odom_test(){
     Brain.Screen.printAt(0,130, "SidewaysTracker: %f", chassis.get_SidewaysTracker_position());
     task::sleep(20);
   }
-}
-
-void tank_odom_test(){
-  odom_constants();
-  chassis.set_coordinates(0, 0, 0);
-  chassis.drive_to_point(24,24);
-  chassis.drive_to_point(0,0);
-  chassis.turn_to_angle(0);
 }

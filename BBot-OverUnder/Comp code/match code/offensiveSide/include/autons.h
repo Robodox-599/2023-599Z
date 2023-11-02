@@ -11,3 +11,4 @@ void tank_odom_test();
 void kansasAuton();
 void memeAuton();
 void defensiveAuton();
+void autonSkills();

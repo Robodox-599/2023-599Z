@@ -124,11 +124,14 @@ void pre_auton(void) {
       case 1:
         Brain.Screen.printAt(50, 50, "DEFENSIVE AUTON");
         break;
+      case 2:
+        Brain.Screen.printAt(50, 50, "AUTON SKILLS");
+        break;
     }
     if(Brain.Screen.pressing()){
       while(Brain.Screen.pressing()) {}
       current_auton_selection ++;
-    } else if (current_auton_selection == 8){
+    } else if (current_auton_selection == 3){
       current_auton_selection = 0;
     }
     task::sleep(10);
@@ -143,6 +146,9 @@ void autonomous(void) {
       break;        //Change these to be your own auton functions in order to use the auton selector.
     case 1:         //Tap the screen to cycle through autons.
       defensiveAuton();
+      break;
+    case 2: 
+      autonSkills();
       break;
  }
 }
@@ -180,7 +186,7 @@ void cataControl(float times){
     cataRight.spinFor((cataPos(false)), rotationUnits::deg, 65, velocityUnits::pct); // turns the perfect amount to get to 180.
     cataLeft.setPosition(0, degrees); // resets encoder position to 0
     cataRight.setPosition(0, degrees); // resets encoder position to 0
-    task::sleep(times);// waits set amount of time that was passed as a parameter before running it again
+    this_thread::sleep_for(times);// waits set amount of time that was passed as a parameter before running it again
   } else if(Controller1.ButtonL2.pressing()){
     // if the l2 button is pressed it will give driver custom slow control commands on catapult 
     cataLeft.spin(forward, 20, velocityUnits::pct); // spins amount up to driver at a 20% speed
