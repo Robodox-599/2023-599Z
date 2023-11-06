@@ -119,10 +119,10 @@ void pre_auton(void) {
     Brain.Screen.clearScreen();            //brain screen for auton selection.
     switch(current_auton_selection){       //Tap the brain screen to cycle through autons.
       case 0:
-        Brain.Screen.printAt(50, 50, "OFFENSIVE AUTON");
+        Brain.Screen.printAt(50, 50, "DEFENSIVE AUTON");
         break;
       case 1:
-        Brain.Screen.printAt(50, 50, "DEFENSIVE AUTON");
+        Brain.Screen.printAt(50, 50, "OFFENSIVE AUTON");
         break;
       case 2:
         Brain.Screen.printAt(50, 50, "AUTON SKILLS");
@@ -142,10 +142,11 @@ void autonomous(void) {
   auto_started = true;
   switch(current_auton_selection){  
     case 0:
-      kansasAuton(); //This is the default auton, if you don't select from the brain.
+      defensiveAuton();
+     // kansasAuton(); //This is the default auton, if you don't select from the brain.
       break;        //Change these to be your own auton functions in order to use the auton selector.
     case 1:         //Tap the screen to cycle through autons.
-      defensiveAuton();
+      kansasAuton();
       break;
     case 2: 
       autonSkills();
@@ -163,16 +164,28 @@ void autonomous(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-float cataPos(bool pick){
+float cataPos(bool pick, bool climb){
   // if pick is true then it will do the right motor position but if it is false then it will do the left motor position
-  if (pick){
-    float rightPos = cataRight.position(degrees); // gets right motor encoder position and sets it to a variable
-    float changeRight = (180-rightPos); // calculates the angle to turn to get to 180 from the motor encoder
-    return changeRight; // returns the angle to be used in the cataControl function
-  } else{
-    float leftPos = cataLeft.position(degrees); // gets left motor encoder position and sets it to a variable
-    float changeLeft = (180-leftPos); // calculates the angle to turn to get to 180 from the motor encoder
-    return changeLeft; // returns the angle to be used in the cataControl function
+  if (climb){
+    if (pick){
+      float rightPos = cataRight.position(degrees); // gets right motor encoder position and sets it to a variable
+      float changeRight = (110-rightPos); // calculates the angle to turn to get to 180 from the motor encoder
+      return changeRight; // returns the angle to be used in the cataControl function
+    } else {
+      float leftPos = cataLeft.position(degrees); // gets left motor encoder position and sets it to a variable
+      float changeLeft = (110-leftPos); // calculates the angle to turn to get to 180 from the motor encoder
+      return changeLeft; // returns the angle to be used in the cataControl function
+    }
+  } else {
+    if (pick){
+      float rightPos = cataRight.position(degrees); // gets right motor encoder position and sets it to a variable
+      float changeRight = (180-rightPos); // calculates the angle to turn to get to 180 from the motor encoder
+      return changeRight; // returns the angle to be used in the cataControl function
+    } else {
+      float leftPos = cataLeft.position(degrees); // gets left motor encoder position and sets it to a variable
+      float changeLeft = (180-leftPos); // calculates the angle to turn to get to 180 from the motor encoder
+      return changeLeft; // returns the angle to be used in the cataControl function
+    }
   }
 }
 void cataControl(float times){
@@ -182,15 +195,22 @@ void cataControl(float times){
     // if l1 is being pressed it will spin the motors to a certain degree to get to the position 180
     // then it will reset the motor encoder values to 0 for both motors 
     // then it waits 
-    cataLeft.spinFor((cataPos(true)), rotationUnits::deg, 65, velocityUnits::pct, false); // turns the perfect amount to get to 180
-    cataRight.spinFor((cataPos(false)), rotationUnits::deg, 65, velocityUnits::pct); // turns the perfect amount to get to 180.
+    cataLeft.spinFor((cataPos(true, false)), rotationUnits::deg, 65, velocityUnits::pct, false); // turns the perfect amount to get to 180
+    cataRight.spinFor((cataPos(false, false)), rotationUnits::deg, 65, velocityUnits::pct); // turns the perfect amount to get to 180.
     cataLeft.setPosition(0, degrees); // resets encoder position to 0
     cataRight.setPosition(0, degrees); // resets encoder position to 0
-    this_thread::sleep_for(times);// waits set amount of time that was passed as a parameter before running it again
+   // waits set amount of time that was passed as a parameter before running it again
   } else if(Controller1.ButtonL2.pressing()){
     // if the l2 button is pressed it will give driver custom slow control commands on catapult 
     cataLeft.spin(forward, 20, velocityUnits::pct); // spins amount up to driver at a 20% speed
     cataRight.spin(forward, 20, velocityUnits::pct); // spins amount up to driver at a 20% speed
+  } else if(Controller1.ButtonL2.pressing()){
+    cataLeft.spinFor((cataPos(true, true)), rotationUnits::deg, 65, velocityUnits::pct, false); // turns the perfect amount to get to 180
+    cataRight.spinFor((cataPos(false, true)), rotationUnits::deg, 65, velocityUnits::pct); // turns the perfect amount to get to 180.
+    cataLeft.setPosition(0, degrees); // resets encoder position to 0
+    cataRight.setPosition(0, degrees); // resets encoder position to 0
+   
+   // waits set amount of time that was passed as a parameter before running it again
   } else {
     // if there is no input then it will brake both motors 
      cataLeft.stop(brakeType:: coast); // brakes motor using coast 
@@ -239,7 +259,7 @@ void arcadeDrive(float fwdIn, float trnIn){
 void driveControl(float fwdIn, float trnIn){
  float fwdVal; 
  float trnVal; 
-  if (fabs(fwdIn) >= 15 ){
+  if (fabs(fwdIn) >= 10 ){
     fwdVal = fwdIn*.90;
   } else { 
     fwdVal = 0;
@@ -273,7 +293,7 @@ void usercontrol(void) {
     Controller1.ButtonB.pressed(flapsControlOn);
     Controller1.ButtonY.pressed(flapsControlOff);
     // blocker controls
-    Controller1.ButtonA.pressed(press);
+    //Controller1.ButtonA.pressed(press);
     //descorer controls
     intakeControls();
    

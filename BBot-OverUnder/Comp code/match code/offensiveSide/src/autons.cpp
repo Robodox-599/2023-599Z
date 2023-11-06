@@ -41,38 +41,56 @@ void cataControls(float times){
 // real autons down here
 void kansasAuton(){
   intakeMotor.setPosition(0, degrees);
+  intakeMotor.setBrake(brakeType::hold);
   wingsPiston.set(true); 
   wait(100, msec);
-  wingsPiston.set(false); 
+  wingsPiston.set(false);
   chassis.drive_distance(59);
   intakeMotor.spinFor(-110, rotationUnits::deg, 100, velocityUnits::pct, true);
-  chassis.turn_to_angle(120);
-  wingsPiston.set(true); 
+  chassis.turn_to_angle(120, 8);
   intakeMotor.spinFor(110, rotationUnits::deg, 100, velocityUnits::pct, true);
+  wingsPiston.set(true); 
   chassis.drive_distance(32);
   wingsPiston.set(false); 
   chassis.drive_distance(-12);
-  chassis.turn_to_angle(275);
+  chassis.turn_to_angle(270);
   chassis.drive_distance(25);
   intakeMotor.spinFor(-110, rotationUnits::deg, 100, velocityUnits::pct, true);
-  chassis.turn_to_angle(150);
-  chassis.drive_distance(51);
+  chassis.drive_distance(-12);
+  chassis.turn_to_angle(180);
+  chassis.drive_distance(40);
+  //chassis.turn_to_angle(180);
+  // chassis.drive_distance(51);
   chassis.turn_to_angle(395);
   intakeMotor.spinFor(110, rotationUnits::deg, 100, velocityUnits::pct, true);
-  chassis.drive_distance(14);
+  chassis.drive_distance(35);
 }
 
 void defensiveAuton(){
-  intakeMotor.spinFor(-110, rotationUnits::deg, 100, velocityUnits::pct, true);
-  chassis.drive_distance(-10);
-  chassis.turn_to_angle(-90);
+  intakeMotor.setPosition(0, degrees);
+  intakeMotor.setBrake(brakeType::hold);
   wingsPiston.set(true); 
-  chassis.drive_distance(-39);
-  chassis.drive_distance(50);
+  wait(500, msec);
   wingsPiston.set(false);
-  chassis.turn_to_angle(220);
+  intakeMotor.spinFor(-110, rotationUnits::deg, 100, velocityUnits::pct, true);
+  wait(1000, msec);
+  chassis.drive_distance(-8);
+  chassis.turn_to_angle(270);
   intakeMotor.spinFor(110, rotationUnits::deg, 100, velocityUnits::pct, true);
+  chassis.drive_distance(-30);
   chassis.drive_distance(35);
+  chassis.turn_to_angle(230);
+  chassis.drive_distance(36);
+  // intakeMotor.spinFor(-110, rotationUnits::deg, 100, velocityUnits::pct, true);
+  // chassis.drive_distance(-10);
+  // chassis.turn_to_angle(-90);
+  // wingsPiston.set(true); 
+  // chassis.drive_distance(-39);
+  // chassis.drive_distance(50);
+  // wingsPiston.set(false);
+  // chassis.turn_to_angle(220);
+  // intakeMotor.spinFor(110, rotationUnits::deg, 100, velocityUnits::pct, true);
+  // chassis.drive_distance(35);
 }
 
 void autonSkills(){
@@ -80,13 +98,9 @@ void autonSkills(){
   chassis.drive_distance(-8);
   chassis.turn_to_angle(100);
   chassis.drive_distance(-12);
-  for(int i=0; i<=44; i++){
+  for(int i=0; i<=46; i++){
   cataControls(100);
   }
-  chassis.drive_distance(70);
-  wingsPiston.set(true); 
-  chassis.turn_to_angle(90);
-
  }
 
 
