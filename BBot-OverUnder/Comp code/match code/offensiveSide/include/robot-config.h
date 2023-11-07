@@ -11,7 +11,7 @@ extern motor RF;
 extern motor cataLeft;
 extern motor cataRight;
 extern motor intakeMotor;
-extern digital_out wingsPiston;
+extern digital_out flapsPiston;
 extern inertial Inertial3;
 extern digital_out blockerPiston;
 extern limit LimitSwitchC;
