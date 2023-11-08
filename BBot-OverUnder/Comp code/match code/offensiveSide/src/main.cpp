@@ -229,10 +229,10 @@ void intakeControls(){
    }
 }
 void flapsControlOn(){
-  wingsPiston.set(true); 
+  flapsPiston.set(true); 
 }
 void flapsControlOff(){
-  wingsPiston.set(false); 
+  flapsPiston.set(false); 
 }
 void slowDrive(){
   if (Controller1.ButtonDown.pressing()){
@@ -271,6 +271,28 @@ void driveControl(float fwdIn, float trnIn){
   }
   arcadeDrive(fwdVal, trnVal);
 }
+void tankDrive(float leftIn, float rightIn){
+//motorYouWantToSpin.spin(direction, speed, velocity type)
+  LB.spin(forward, (leftIn), percent); // uses parameters as input to determine the speed in percent for the motor 
+  RB.spin(forward, (rightIn), percent); // uses parameters as input to determine the speed in percent for the motor 
+  LF.spin(forward, (leftIn), percent); // uses parameters as input to determine the speed in percent for the motor 
+  RF.spin(forward, (rightIn), percent); // uses parameters as input to determine the speed in percent for the motor 
+}
+void tankDriveControl(float leftIn, float rightIn){
+ float leftVal; 
+ float rightVal; 
+  if (fabs(leftIn) >= 5 ){
+    leftVal = leftIn*.95;
+  } else { 
+    leftVal = 0;
+  }
+  if(fabs(rightIn) >= 10 ){
+    rightVal = rightIn*.90;
+  } else { 
+    rightVal = 0;
+  }
+  tankDrive(leftVal, rightVal);
+}
 int pressed = 0;
 void press(){
   pressed += 1;
@@ -284,7 +306,8 @@ void press(){
 void usercontrol(void) {
   while (1) {
     //drive controls
-    driveControl(Controller1.Axis3.value(), Controller1.Axis1.value());
+    //driveControl(Controller1.Axis3.value(), Controller1.Axis1.value());
+    tankDriveControl(Controller1.Axis3.value(), Controller1.Axis2.value());
     //slow arrow drive
     slowDrive();
     // outake controls
@@ -293,7 +316,7 @@ void usercontrol(void) {
     Controller1.ButtonB.pressed(flapsControlOn);
     Controller1.ButtonY.pressed(flapsControlOff);
     // blocker controls
-    //Controller1.ButtonA.pressed(press);
+    Controller1.ButtonA.pressed(press);
     //descorer controls
     intakeControls();
    

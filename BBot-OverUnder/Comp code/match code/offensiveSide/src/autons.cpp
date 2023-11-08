@@ -42,16 +42,16 @@ void cataControls(float times){
 void kansasAuton(){
   intakeMotor.setPosition(0, degrees);
   intakeMotor.setBrake(brakeType::hold);
-  wingsPiston.set(true); 
+  flapsPiston.set(true); 
   wait(100, msec);
-  wingsPiston.set(false);
+  flapsPiston.set(false);
   chassis.drive_distance(59);
   intakeMotor.spinFor(-110, rotationUnits::deg, 100, velocityUnits::pct, true);
   chassis.turn_to_angle(120, 8);
   intakeMotor.spinFor(110, rotationUnits::deg, 100, velocityUnits::pct, true);
-  wingsPiston.set(true); 
+  flapsPiston.set(true); 
   chassis.drive_distance(32);
-  wingsPiston.set(false); 
+  flapsPiston.set(false); 
   chassis.drive_distance(-12);
   chassis.turn_to_angle(270);
   chassis.drive_distance(25);
@@ -69,9 +69,9 @@ void kansasAuton(){
 void defensiveAuton(){
   intakeMotor.setPosition(0, degrees);
   intakeMotor.setBrake(brakeType::hold);
-  wingsPiston.set(true); 
+  flapsPiston.set(true); 
   wait(500, msec);
-  wingsPiston.set(false);
+  flapsPiston.set(false);
   intakeMotor.spinFor(-110, rotationUnits::deg, 100, velocityUnits::pct, true);
   wait(1000, msec);
   chassis.drive_distance(-8);
