@@ -53,10 +53,3 @@ int to_port(int port){
   }
   return(port-1);
 }
-
-float deadband(float input, float width){
-  if (fabs(input)<width){
-    return(0);
-  }
-  return(input);
-}
