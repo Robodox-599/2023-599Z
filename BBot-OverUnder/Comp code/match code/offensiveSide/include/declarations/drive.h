@@ -64,14 +64,19 @@ public:
 
   float get_right_position_in();
 
-  void set_turn_constants(float turn_max_voltage, float turn_kp, float turn_ki, float turn_kd, float turn_starti); 
-  void set_drive_constants(float drive_max_voltage, float drive_kp, float drive_ki, float drive_kd, float drive_starti);
-  void set_heading_constants(float heading_max_voltage, float heading_kp, float heading_ki, float heading_kd, float heading_starti);
-  void set_swing_constants(float swing_max_voltage, float swing_kp, float swing_ki, float swing_kd, float swing_starti);
+  void set_constants(
+    
+  float turn_max_voltage, float turn_kp, float turn_ki, float turn_kd, float turn_starti, 
+  
+  float drive_max_voltage, float drive_kp, float drive_ki, float drive_kd, float drive_starti,
 
-  void set_turn_exit_conditions(float turn_settle_error, float turn_settle_time, float turn_timeout);
-  void set_drive_exit_conditions(float drive_settle_error, float drive_settle_time, float drive_timeout);
-  void set_swing_exit_conditions(float swing_settle_error, float swing_settle_time, float swing_timeout);
+  float swing_max_voltage, float swing_kp, float swing_ki, float swing_kd, float swing_starti, 
+
+  float heading_max_voltage, float heading_kp, float heading_ki, float heading_kd, float heading_starti
+  
+  ); 
+
+  void set_exit_conditions(float swing_settle_error, float swing_settle_time, float swing_timeout, float turn_settle_error, float turn_settle_time, float turn_timeout, float drive_settle_error, float drive_settle_time, float drive_timeout);
 
   void turn_to_angle(float angle);
   void turn_to_angle(float angle, float turn_max_voltage);

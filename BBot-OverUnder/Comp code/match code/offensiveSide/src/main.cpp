@@ -179,7 +179,7 @@ void flapsControlOff(){
   flapsPiston.set(false); 
 }
 void slowDrive(){
-  if (Controller1.ButtonDown.pressing()){
+  if (Controller1.ButtonLeft.pressing()){
     LB.spin(forward, -15, percent);
     RB.spin(forward, 15, percent);
     LF.spin(forward, -15, percent);
@@ -222,21 +222,49 @@ void tankDrive(float leftIn, float rightIn){
   LF.spin(forward, (leftIn), percent); // uses parameters as input to determine the speed in percent for the motor 
   RF.spin(forward, (rightIn), percent); // uses parameters as input to determine the speed in percent for the motor 
 }
-void tankDriveControl(float leftIn, float rightIn){
- float leftVal; 
- float rightVal; 
-  if (fabs(leftIn) >= 5 ){
+
+bool pressing = false;
+void toggle(){
+  pressing = !pressing;
+}
+void tankDriveControl(float leftIn, float rightIn, bool pressing){
+  float leftVal; 
+  float rightVal; 
+  if (pressing){
+    leftVal = leftIn*.50;
+    rightVal = rightIn*.50;
+  }
+  if (fabs(leftIn) >= 5 )
+  {
     leftVal = leftIn*.95;
-  } else { 
+  } 
+  else 
+  { 
     leftVal = 0;
   }
-  if(fabs(rightIn) >= 10 ){
+  if(fabs(rightIn) >= 10 )
+  {
     rightVal = rightIn*.90;
-  } else { 
-    rightVal = 0;
   }
+  else 
+  { 
+    rightVal = 0;
+  } 
   tankDrive(leftVal, rightVal);
 }
+// void slowToggleDrive(float leftIn, float rightIn){
+//   float leftVal; 
+//   float rightVal;
+//   if (pressing == 1 ){ 
+//     leftVal = leftIn*.50;
+//     rightVal = rightIn*.50;
+//     tankDrive(leftVal, rightVal);
+//   }
+//   else if (pressing != 1){
+//     tankDriveControl(Controller1.Axis3.value(), Controller1.Axis2.value());
+//   }
+// }
+
 int pressed = 0;
 void press(){
   pressed += 1;
@@ -251,7 +279,10 @@ void usercontrol(void) {
   while (1) {
     //drive controls
     //driveControl(Controller1.Axis3.value(), Controller1.Axis1.value());
-    tankDriveControl(Controller1.Axis3.value(), Controller1.Axis2.value());
+    tankDriveControl(Controller1.Axis3.value(), Controller1.Axis2.value(), pressing);
+    //slowToggleDrive(Controller1.Axis3.value(), Controller1.Axis2.value());
+    //toggle slow drive
+    Controller1.ButtonDown.pressed(toggle);
     //slow arrow drive
     slowDrive();
     // outake controls

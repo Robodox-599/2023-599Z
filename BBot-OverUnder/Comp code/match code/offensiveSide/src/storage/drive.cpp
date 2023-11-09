@@ -13,54 +13,106 @@ Drive::Drive(motor_group DriveL, motor_group DriveR, int gyro_port, float wheel_
 
 void Drive::drive_with_voltage(float leftVoltage, float rightVoltage){
   DriveL.spin(fwd, leftVoltage, volt);
-  DriveR.spin(fwd, rightVoltage,volt);
+  DriveR.spin(fwd, rightVoltage, volt);
 }
 
-void Drive::set_turn_constants(float turn_max_voltage, float turn_kp, float turn_ki, float turn_kd, float turn_starti){
+void Drive::set_constants
+(
+
+/* Regular Turn Constants--------------------------------*/
+  float turn_max_voltage, 
+  float turn_kp, 
+  float turn_ki, 
+  float turn_kd, 
+  float turn_starti, 
+
+/* Regular Drive Constants------------------------------*/
+  float drive_max_voltage, 
+  float drive_kp, 
+  float drive_ki, 
+  float drive_kd, 
+  float drive_starti, 
+
+/* Swing Turn Constants----------------------------------*/
+  float swing_max_voltage, 
+  float swing_kp, 
+  float swing_ki, 
+  float swing_kd, 
+  float swing_starti, 
+  
+/*Heading Constants------------------------------------*/
+  float heading_max_voltage, 
+  float heading_kp,
+  float heading_ki, 
+  float heading_kd, 
+  float heading_starti
+  
+)
+  {
+
+/* Regular Turn Constants--------------------------------*/
   this->turn_max_voltage = turn_max_voltage;
   this->turn_kp = turn_kp;
   this->turn_ki = turn_ki;
   this->turn_kd = turn_kd;
   this->turn_starti = turn_starti;
-} 
 
-void Drive::set_drive_constants(float drive_max_voltage, float drive_kp, float drive_ki, float drive_kd, float drive_starti){
+/* Regular Drive Constants------------------------------*/
   this->drive_max_voltage = drive_max_voltage;
   this->drive_kp = drive_kp;
   this->drive_ki = drive_ki;
   this->drive_kd = drive_kd;
   this->drive_starti = drive_starti;
-} 
 
-void Drive::set_heading_constants(float heading_max_voltage, float heading_kp, float heading_ki, float heading_kd, float heading_starti){
-  this->heading_max_voltage = heading_max_voltage;
-  this->heading_kp = heading_kp;
-  this->heading_ki = heading_ki;
-  this->heading_kd = heading_kd;
-  this->heading_starti = heading_starti;
-}
-
-void Drive::set_swing_constants(float swing_max_voltage, float swing_kp, float swing_ki, float swing_kd, float swing_starti){
+/*Swing Turn Constants----------------------------------*/
   this->swing_max_voltage = swing_max_voltage;
   this->swing_kp = swing_kp;
   this->swing_ki = swing_ki;
   this->swing_kd = swing_kd;
   this->swing_starti = swing_starti;
-} 
 
-void Drive::set_turn_exit_conditions(float turn_settle_error, float turn_settle_time, float turn_timeout){
+/*Heading Constants------------------------------------*/
+  this->heading_max_voltage = heading_max_voltage;
+  this->heading_kp = heading_kp;
+  this->heading_ki = heading_ki;
+  this->heading_kd = heading_kd;
+  this->heading_starti = heading_starti;
+
+}
+
+void Drive::set_exit_conditions
+(
+
+/*Regular Turn Conditions----------------------------------*/
+  float turn_settle_error, 
+  float turn_settle_time, 
+  float turn_timeout, 
+
+/*Swing Turn Conditions------------------------------------*/
+  float swing_settle_error, 
+  float swing_settle_time, 
+  float swing_timeout,
+
+/*Regular Drive Conditions---------------------------------*/ 
+  float drive_settle_error, 
+  float drive_settle_time, 
+  float drive_timeout
+
+)
+
+{
+
+/*Regular Turn Conditions----------------------------------*/
   this->turn_settle_error = turn_settle_error;
   this->turn_settle_time = turn_settle_time;
   this->turn_timeout = turn_timeout;
-}
 
-void Drive::set_drive_exit_conditions(float drive_settle_error, float drive_settle_time, float drive_timeout){
+/*Regular Drive Conditions----------------------------------*/
   this->drive_settle_error = drive_settle_error;
   this->drive_settle_time = drive_settle_time;
   this->drive_timeout = drive_timeout;
-}
 
-void Drive::set_swing_exit_conditions(float swing_settle_error, float swing_settle_time, float swing_timeout){
+/*Swing Turn Conditions------------------------------------*/
   this->swing_settle_error = swing_settle_error;
   this->swing_settle_time = swing_settle_time;
   this->swing_timeout = swing_timeout;
@@ -114,9 +166,9 @@ void Drive::left_swing_to_angle(float angle){
 void Drive::turn_to_angle(float angle, float turn_max_voltage, float turn_settle_error, float turn_settle_time, float turn_timeout, float turn_kp, float turn_ki, float turn_kd, float turn_starti){
   desired_heading = angle;
   PID turnPID(reduce_negative_180_to_180(angle - get_absolute_heading()), turn_kp, turn_ki, turn_kd, turn_starti, turn_settle_error, turn_settle_time, turn_timeout);
-  while(turnPID.is_settled() == false){
+  while(turnPID.settled() == false){
     float error = reduce_negative_180_to_180(angle - get_absolute_heading());
-    float output = turnPID.compute(error);
+    float output = turnPID.calculate(error);
     output = clamp(output, -turn_max_voltage, turn_max_voltage);
     drive_with_voltage(output, -output);
     task::sleep(10);
@@ -131,12 +183,12 @@ void Drive::drive_distance(float distance, float heading, float drive_max_voltag
   PID headingPID(reduce_negative_180_to_180(heading - get_absolute_heading()), heading_kp, heading_ki, heading_kd, heading_starti);
   float start_average_position = (get_left_position_in()+get_right_position_in())/2.0;
   float average_position = start_average_position;
-  while(drivePID.is_settled() == false){
+  while(drivePID.settled() == false){
     average_position = (get_left_position_in()+get_right_position_in())/2.0;
     float drive_error = distance+start_average_position-average_position;
     float heading_error = reduce_negative_180_to_180(heading - get_absolute_heading());
-    float drive_output = drivePID.compute(drive_error);
-    float heading_output = headingPID.compute(heading_error);
+    float drive_output = drivePID.calculate(drive_error);
+    float heading_output = headingPID.calculate(heading_error);
 
     drive_output = clamp(drive_output, -drive_max_voltage, drive_max_voltage);
     heading_output = clamp(heading_output, -heading_max_voltage, heading_max_voltage);
@@ -151,9 +203,9 @@ void Drive::drive_distance(float distance, float heading, float drive_max_voltag
 void Drive::left_swing_to_angle(float angle, float swing_max_voltage, float swing_settle_error, float swing_settle_time, float swing_timeout, float swing_kp, float swing_ki, float swing_kd, float swing_starti){
   desired_heading = angle;
   PID swingPID(reduce_negative_180_to_180(angle - get_absolute_heading()), swing_kp, swing_ki, swing_kd, swing_starti, swing_settle_error, swing_settle_time, swing_timeout);
-  while(swingPID.is_settled() == false){
+  while(swingPID.settled() == false){
     float error = reduce_negative_180_to_180(angle - get_absolute_heading());
-    float output = swingPID.compute(error);
+    float output = swingPID.calculate(error);
     output = clamp(output, -turn_max_voltage, turn_max_voltage);
     DriveL.spin(fwd, output, volt);
     DriveR.stop(hold);
@@ -166,9 +218,9 @@ void Drive::left_swing_to_angle(float angle, float swing_max_voltage, float swin
 void Drive::right_swing_to_angle(float angle, float swing_max_voltage, float swing_settle_error, float swing_settle_time, float swing_timeout, float swing_kp, float swing_ki, float swing_kd, float swing_starti){
   desired_heading = angle;
   PID swingPID(reduce_negative_180_to_180(angle - get_absolute_heading()), swing_kp, swing_ki, swing_kd, swing_starti, swing_settle_error, swing_settle_time, swing_timeout);
-  while(swingPID.is_settled() == false){
+  while(swingPID.settled() == false){
     float error = reduce_negative_180_to_180(angle - get_absolute_heading());
-    float output = swingPID.compute(error);
+    float output = swingPID.calculate(error);
     output = clamp(output, -turn_max_voltage, turn_max_voltage);
     DriveR.spin(reverse, output, volt);
     DriveL.stop(hold);

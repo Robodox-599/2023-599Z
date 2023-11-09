@@ -19,7 +19,7 @@ PID::PID(float error, float kp, float ki, float kd, float starti, float settle_e
   timeout(timeout)
 {};
 
-float PID::compute(float error){
+float PID::calculate(float error){
   if (fabs(error) < starti){
     accumulated_error+=error;
   }
@@ -41,7 +41,7 @@ float PID::compute(float error){
   return output;
 }
 
-bool PID::is_settled(){
+bool PID::settled(){
   if (time_spent_running>timeout && timeout != 0){
     return(true);
   }

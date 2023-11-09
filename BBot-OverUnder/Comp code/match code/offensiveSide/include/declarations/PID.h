@@ -22,7 +22,7 @@ public:
 
   PID(float error, float kp, float ki, float kd, float starti);
 
-  float compute(float error);
+  float calculate(float error);
 
-  bool is_settled();
+  bool settled();
 };
