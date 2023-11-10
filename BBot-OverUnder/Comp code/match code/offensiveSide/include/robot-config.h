@@ -13,7 +13,7 @@ extern motor cataRight;
 extern motor intakeMotor;
 extern digital_out flapsPiston;
 extern inertial Inertial3;
-extern digital_out blockerPiston;
+extern digital_out wedgePiston;
 extern limit LimitSwitchC;
 
 /**

@@ -18,7 +18,7 @@ motor cataRight = motor(PORT1, ratio36_1, false);
 motor intakeMotor = motor(PORT10, ratio18_1, false);
 digital_out flapsPiston = digital_out(Brain.ThreeWirePort.A);
 inertial Inertial3 = inertial(PORT3);
-digital_out blockerPiston = digital_out(Brain.ThreeWirePort.B);
+digital_out wedgePiston = digital_out(Brain.ThreeWirePort.B);
 limit LimitSwitchC = limit(Brain.ThreeWirePort.C);
 
 // VEXcode generated functions

@@ -14,17 +14,6 @@ void default_constants(){
 /*swing*/  1               ,        300         ,     2000    ,
 /*turn*/   1               ,        250         ,     1500    ,
 /*drive*/  1.5             ,        250         ,     4000    );
-
-
-
-
-  // chassis.set_drive_constants(12, 1.5, 0, 10, 0);
-  // chassis.set_heading_constants(12, .4, 0, 1, 0);
-  // chassis.set_turn_constants(12, .3, .03, 6, 15);
-  // chassis.set_swing_constants(12, .3, .001, 2, 15);
-  // chassis.set_drive_exit_conditions(1.5, 250, 4000);
-  // chassis.set_turn_exit_conditions(1, 250, 1500);
-  // chassis.set_swing_exit_conditions(1, 300, 2000);
 }
 float cataPosition(bool pick){
   // if pick is true then it will do the right motor position but if it is false then it will do the left motor position

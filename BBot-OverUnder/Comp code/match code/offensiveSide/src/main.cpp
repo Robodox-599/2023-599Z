@@ -9,6 +9,22 @@
 // cataLeft             motor         14              
 // cataRight            motor         1               
 // intakeMotor          motor         10              
+// flapsPiston          digital_out   A               
+// Inertial3            inertial      3               
+// wedgePiston          digital_out   B               
+// LimitSwitchC         limit         C               
+// ---- END VEXCODE CONFIGURED DEVICES ----
+// ---- START VEXCODE CONFIGURED DEVICES ----
+// Robot Configuration:
+// [Name]               [Type]        [Port(s)]
+// Controller1          controller                    
+// LB                   motor         13              
+// RB                   motor         12              
+// LF                   motor         11              
+// RF                   motor         2               
+// cataLeft             motor         14              
+// cataRight            motor         1               
+// intakeMotor          motor         10              
 // wingsPiston          digital_out   A               
 // Inertial3            inertial      3               
 // blockerPiston        digital_out   B               
@@ -86,10 +102,9 @@ void autonomous(void) {
   auto_started = true;
   switch(current_auton_selection){  
     case 0:
-      defensiveAuton();
-     // kansasAuton(); //This is the default auton, if you don't select from the brain.
-      break;        //Change these to be your own auton functions in order to use the auton selector.
-    case 1:         //Tap the screen to cycle through autons.
+      defensiveAuton(); //This is the default auton, if one is not selected from the brain
+      break;            //Tap the screen to cycle through autons.
+    case 1:        
       kansasAuton();
       break;
     case 2: 
@@ -108,77 +123,81 @@ void autonomous(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-float cataPos(bool pick, bool climb){
+float cataPos(bool pick, bool climb, float cataResetAngle, float climbAngle){
   // if pick is true then it will do the right motor position but if it is false then it will do the left motor position
   if (climb){
     if (pick){
       float rightPos = cataRight.position(degrees); // gets right motor encoder position and sets it to a variable
-      float changeRight = (110-rightPos); // calculates the angle to turn to get to 180 from the motor encoder
+      float changeRight = (climbAngle-rightPos); // calculates the angle to turn to get to climbAngle from the motor encoder
       return changeRight; // returns the angle to be used in the cataControl function
     } else {
       float leftPos = cataLeft.position(degrees); // gets left motor encoder position and sets it to a variable
-      float changeLeft = (110-leftPos); // calculates the angle to turn to get to 180 from the motor encoder
+      float changeLeft = (climbAngle-leftPos); // calculates the angle to turn to get to climbAngle from the motor encoder
       return changeLeft; // returns the angle to be used in the cataControl function
     }
   } else {
     if (pick){
       float rightPos = cataRight.position(degrees); // gets right motor encoder position and sets it to a variable
-      float changeRight = (180-rightPos); // calculates the angle to turn to get to 180 from the motor encoder
+      float changeRight = (cataResetAngle-rightPos); // calculates the angle to turn to get to cataResetAngle from the motor encoder
       return changeRight; // returns the angle to be used in the cataControl function
     } else {
       float leftPos = cataLeft.position(degrees); // gets left motor encoder position and sets it to a variable
-      float changeLeft = (180-leftPos); // calculates the angle to turn to get to 180 from the motor encoder
+      float changeLeft = (cataResetAngle-leftPos); // calculates the angle to turn to get to cataResetAngle from the motor encoder
       return changeLeft; // returns the angle to be used in the cataControl function
     }
   }
 }
-void cataControl(float times){
+void cataControl(float climbAngle, float cataResetAngle){
   // catapult control function
-  // function takes in time to see how long it has to wait before running the commands again. 
+  // function takes in catareset angle as a parameter to set the reset angle for the catapult
+  // function also takes in the climbing angle as a parameter to set the angle the catapult needs to be at for the climb
   if (Controller1.ButtonL1.pressing()){
     // if l1 is being pressed it will spin the motors to a certain degree to get to the position 180
     // then it will reset the motor encoder values to 0 for both motors 
     // then it waits 
-    cataLeft.spinFor((cataPos(true, false)), rotationUnits::deg, 65, velocityUnits::pct, false); // turns the perfect amount to get to 180
-    cataRight.spinFor((cataPos(false, false)), rotationUnits::deg, 65, velocityUnits::pct); // turns the perfect amount to get to 180.
-    cataLeft.setPosition(0, degrees); // resets encoder position to 0
-    cataRight.setPosition(0, degrees); // resets encoder position to 0
-   // waits set amount of time that was passed as a parameter before running it again
+    cataLeft.spinFor((cataPos(true, false, cataResetAngle, climbAngle)), rotationUnits::deg, 65, velocityUnits::pct, false); // turns the perfect amount to get to cataResetAngle
+    cataRight.spinFor((cataPos(false, false, cataResetAngle, climbAngle)), rotationUnits::deg, 65, velocityUnits::pct); // turns the perfect amount to get to cataResetAngle.
   } else if(Controller1.ButtonL2.pressing()){
     // if the l2 button is pressed it will give driver custom slow control commands on catapult 
     cataLeft.spin(forward, 20, velocityUnits::pct); // spins amount up to driver at a 20% speed
     cataRight.spin(forward, 20, velocityUnits::pct); // spins amount up to driver at a 20% speed
-  } else if(Controller1.ButtonL2.pressing()){
-    cataLeft.spinFor((cataPos(true, true)), rotationUnits::deg, 65, velocityUnits::pct, false); // turns the perfect amount to get to 180
-    cataRight.spinFor((cataPos(false, true)), rotationUnits::deg, 65, velocityUnits::pct); // turns the perfect amount to get to 180.
+  } else if(Controller1.ButtonL2.pressing()&& Controller1.ButtonL1.pressing()){
+    // if both buttons are being pressed then it will start to turn the catapult motors to the set climb angle
+    cataLeft.spinFor((cataPos(true, true, cataResetAngle, climbAngle)), rotationUnits::deg, 65, velocityUnits::pct, false); // turns the perfect amount to get to the climb angle
+    cataRight.spinFor((cataPos(false, true, cataResetAngle, climbAngle)), rotationUnits::deg, 65, velocityUnits::pct); // turns the perfect amount to get to climb angle
     cataLeft.setPosition(0, degrees); // resets encoder position to 0
     cataRight.setPosition(0, degrees); // resets encoder position to 0
-   
-   // waits set amount of time that was passed as a parameter before running it again
   } else {
     // if there is no input then it will brake both motors 
      cataLeft.stop(brakeType:: coast); // brakes motor using coast 
      cataRight.stop(brakeType:: coast);// brakes motor using coast 
   }
 }
+
 void intakeControls(){
+  //intake control function
   if (Controller1.ButtonR1.pressing()){
-    wait(85, msec);
-    intakeMotor.spin(forward, -80, velocityUnits::pct);
-   } else if (Controller1.ButtonR2.pressing()) {
-     wait(85, msec);
-     intakeMotor.spin(forward, 80, velocityUnits::pct);
-   } else{
-     intakeMotor.stop(brakeType:: hold);
-   }
+     /* if r1 is being pressed then it will wait 0.0085 of a second before spinning the arm up
+    it waits .0085 of a second in order to remove the current from the hold braking, this way 
+    there are no issues with the arm jumping down before going up, or jumping up before going
+    down */
+    wait(85, msec); // waits 85 milliseconds
+    intakeMotor.spin(forward, -80, velocityUnits::pct);// spins the intake Motor at 80 percent speed and spins it forward to spin the arm up
+  } else if (Controller1.ButtonR2.pressing()) {
+    /* if r2 is being pressed then it will wait 0.0085 of a second before spinning the arm up
+    it waits .0085 of a second in order to remove the current from the hold braking, this way 
+    there are no issues with the arm jumping down before going up, or jumping up before going
+    down */
+     wait(85, msec); // waits 85 milliseconds
+     intakeMotor.spin(forward, 80, velocityUnits::pct); // spins the intake Motor at 80 percent speed and spins it forward to spin the arm down
+  } else{
+    // if there is no input then it will brake and hold the arm. 
+     intakeMotor.stop(brakeType:: hold); // sets brake type to Hold so then the Intake arm will remain at the position it is at. 
+  }
 }
-void flapsControlOn(){
-  flapsPiston.set(true); 
-}
-void flapsControlOff(){
-  flapsPiston.set(false); 
-}
-void slowDrive(){
+
+void slowDrive(){ 
+  //slow turning 
   if (Controller1.ButtonLeft.pressing()){
     LB.spin(forward, -15, percent);
     RB.spin(forward, 15, percent);
@@ -200,7 +219,7 @@ void arcadeDrive(float fwdIn, float trnIn){
   LF.spin(forward, (fwdIn + trnIn), percent); // uses parameters as input to determine the speed in percent for the motor 
   RF.spin(forward, (fwdIn - trnIn), percent); // uses parameters as input to determine the speed in percent for the motor 
 }
-void driveControl(float fwdIn, float trnIn){
+void arcadeDriveControl(float fwdIn, float trnIn){
  float fwdVal; 
  float trnVal; 
   if (fabs(fwdIn) >= 10 ){
@@ -222,76 +241,66 @@ void tankDrive(float leftIn, float rightIn){
   LF.spin(forward, (leftIn), percent); // uses parameters as input to determine the speed in percent for the motor 
   RF.spin(forward, (rightIn), percent); // uses parameters as input to determine the speed in percent for the motor 
 }
-
-bool pressing = false;
+float modifier = 1.0;
+bool toggleState = false;
 void toggle(){
-  pressing = !pressing;
+  toggleState = !toggleState;
+  if (toggleState){
+    modifier = 0.5;
+  } else {
+    modifier = 1.0;
+  }
 }
-void tankDriveControl(float leftIn, float rightIn, bool pressing){
+void tankDriveControl(float leftIn, float rightIn){
   float leftVal; 
   float rightVal; 
-  if (pressing){
-    leftVal = leftIn*.50;
-    rightVal = rightIn*.50;
-  }
-  if (fabs(leftIn) >= 5 )
-  {
-    leftVal = leftIn*.95;
-  } 
-  else 
-  { 
+  if (fabs(leftIn) >= 5 ){
+    leftVal = leftIn*.95*modifier;
+  } else { 
     leftVal = 0;
   }
-  if(fabs(rightIn) >= 10 )
-  {
-    rightVal = rightIn*.90;
-  }
-  else 
-  { 
+  if(fabs(rightIn) >= 10 ){
+    rightVal = rightIn*modifier*.90;
+  } else { 
     rightVal = 0;
   } 
   tankDrive(leftVal, rightVal);
 }
-// void slowToggleDrive(float leftIn, float rightIn){
-//   float leftVal; 
-//   float rightVal;
-//   if (pressing == 1 ){ 
-//     leftVal = leftIn*.50;
-//     rightVal = rightIn*.50;
-//     tankDrive(leftVal, rightVal);
-//   }
-//   else if (pressing != 1){
-//     tankDriveControl(Controller1.Axis3.value(), Controller1.Axis2.value());
-//   }
-// }
 
-int pressed = 0;
-void press(){
-  pressed += 1;
-  if (pressed== 1){
-    blockerPiston.set(true);
-  } else if (pressed > 1){
-    pressed = 0;
-    blockerPiston.set(false);
+bool wedgedToggled = false;
+void toggleWedge(){
+  wedgedToggled = !wedgedToggled;
+  if (wedgedToggled){
+    wedgePiston.set(true);
+  } else{
+    wedgePiston.set(false);
+  }
+}
+bool flapsToggled = false;
+void toggleFlaps(){
+  flapsToggled = !flapsToggled;
+  if (flapsToggled){
+    flapsPiston.set(true);
+  } else{
+    flapsPiston.set(false);
   }
 }
 void usercontrol(void) {
   while (1) {
     //drive controls
-    //driveControl(Controller1.Axis3.value(), Controller1.Axis1.value());
-    tankDriveControl(Controller1.Axis3.value(), Controller1.Axis2.value(), pressing);
-    //slowToggleDrive(Controller1.Axis3.value(), Controller1.Axis2.value());
+    //arcadeDriveControl(Controller1.Axis3.value(), Controller1.Axis1.value());
+    tankDriveControl(Controller1.Axis3.value(), Controller1.Axis2.value());
     //toggle slow drive
     Controller1.ButtonDown.pressed(toggle);
     //slow arrow drive
     slowDrive();
-    // outake controls
-    cataControl(200); // change this to how much time it takes to reset the cata at the slip position
+    // outake  and climb controls
+    /*float climbAngle, float cataResetAngle*/
+    cataControl(110, 180);
     // flaps controls
-    Controller1.ButtonB.pressed(flapsControlOn);
-    Controller1.ButtonY.pressed(flapsControlOff);
-    // blocker controls
-    Controller1.ButtonA.pressed(press);
+    Controller1.ButtonY.pressed(toggleFlaps); // calls the toggle function for the flaps when the button is pressed
+    // wedge controls
+    Controller1.ButtonA.pressed(toggleWedge); // calls the toggle function for wedge when the button is pressed
     //descorer controls
     intakeControls();
    
