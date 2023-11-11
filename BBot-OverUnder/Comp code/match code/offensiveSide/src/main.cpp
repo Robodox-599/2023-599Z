@@ -123,19 +123,19 @@ void autonomous(void) {
 /*  You must modify the code to add your own robot specific commands here.   */
 /*---------------------------------------------------------------------------*/
 
-float cataPos(bool pick, bool climb, float cataResetAngle, float climbAngle){
+float cataPos(bool pick/*, bool climb*/, float cataResetAngle/*, float climbAngle*/){
   // if pick is true then it will do the right motor position but if it is false then it will do the left motor position
-  if (climb){
-    if (pick){
-      float rightPos = cataRight.position(degrees); // gets right motor encoder position and sets it to a variable
-      float changeRight = (climbAngle-rightPos); // calculates the angle to turn to get to climbAngle from the motor encoder
-      return changeRight; // returns the angle to be used in the cataControl function
-    } else {
-      float leftPos = cataLeft.position(degrees); // gets left motor encoder position and sets it to a variable
-      float changeLeft = (climbAngle-leftPos); // calculates the angle to turn to get to climbAngle from the motor encoder
-      return changeLeft; // returns the angle to be used in the cataControl function
-    }
-  } else {
+  // if (climb){
+  //   if (pick){
+  //     float rightPos = cataRight.position(degrees); // gets right motor encoder position and sets it to a variable
+  //     float changeRight = (climbAngle-rightPos); // calculates the angle to turn to get to climbAngle from the motor encoder
+  //     return changeRight; // returns the angle to be used in the cataControl function
+  //   } else {
+  //     float leftPos = cataLeft.position(degrees); // gets left motor encoder position and sets it to a variable
+  //     float changeLeft = (climbAngle-leftPos); // calculates the angle to turn to get to climbAngle from the motor encoder
+  //     return changeLeft; // returns the angle to be used in the cataControl function
+  //   }
+  // } else {
     if (pick){
       float rightPos = cataRight.position(degrees); // gets right motor encoder position and sets it to a variable
       float changeRight = (cataResetAngle-rightPos); // calculates the angle to turn to get to cataResetAngle from the motor encoder
@@ -145,7 +145,7 @@ float cataPos(bool pick, bool climb, float cataResetAngle, float climbAngle){
       float changeLeft = (cataResetAngle-leftPos); // calculates the angle to turn to get to cataResetAngle from the motor encoder
       return changeLeft; // returns the angle to be used in the cataControl function
     }
-  }
+  // }
 }
 void cataControl(float climbAngle, float cataResetAngle){
   // catapult control function
@@ -154,19 +154,20 @@ void cataControl(float climbAngle, float cataResetAngle){
   if (Controller1.ButtonL1.pressing()){
     // if l1 is being pressed it will spin the motors to a certain degree to get to the position 180
     // then it will reset the motor encoder values to 0 for both motors 
-    // then it waits 
-    cataLeft.spinFor((cataPos(true, false, cataResetAngle, climbAngle)), rotationUnits::deg, 65, velocityUnits::pct, false); // turns the perfect amount to get to cataResetAngle
-    cataRight.spinFor((cataPos(false, false, cataResetAngle, climbAngle)), rotationUnits::deg, 65, velocityUnits::pct); // turns the perfect amount to get to cataResetAngle.
+    cataLeft.spinFor((cataPos(true, /*false,*/ cataResetAngle/*, climbAngle*/)), rotationUnits::deg, 65, velocityUnits::pct, false); // turns the perfect amount to get to cataResetAngle
+    cataRight.spinFor((cataPos(false, /*false,*/ cataResetAngle/*, climbAngle*/)), rotationUnits::deg, 65, velocityUnits::pct); // turns the perfect amount to get to cataResetAngle.
+    cataLeft.setPosition(0, degrees); // resets encoder position to 0
+    cataRight.setPosition(0, degrees); // resets encoder position to 0
   } else if(Controller1.ButtonL2.pressing()){
     // if the l2 button is pressed it will give driver custom slow control commands on catapult 
     cataLeft.spin(forward, 20, velocityUnits::pct); // spins amount up to driver at a 20% speed
     cataRight.spin(forward, 20, velocityUnits::pct); // spins amount up to driver at a 20% speed
-  } else if(Controller1.ButtonL2.pressing()&& Controller1.ButtonL1.pressing()){
-    // if both buttons are being pressed then it will start to turn the catapult motors to the set climb angle
-    cataLeft.spinFor((cataPos(true, true, cataResetAngle, climbAngle)), rotationUnits::deg, 65, velocityUnits::pct, false); // turns the perfect amount to get to the climb angle
-    cataRight.spinFor((cataPos(false, true, cataResetAngle, climbAngle)), rotationUnits::deg, 65, velocityUnits::pct); // turns the perfect amount to get to climb angle
-    cataLeft.setPosition(0, degrees); // resets encoder position to 0
-    cataRight.setPosition(0, degrees); // resets encoder position to 0
+  // } else if(Controller1.ButtonL2.pressing()&& Controller1.ButtonL1.pressing()){
+  //   // if both buttons are being pressed then it will start to turn the catapult motors to the set climb angle
+  //   cataLeft.spinFor((cataPos(true, true, cataResetAngle, climbAngle)), rotationUnits::deg, 65, velocityUnits::pct, false); // turns the perfect amount to get to the climb angle
+  //   cataRight.spinFor((cataPos(false, true, cataResetAngle, climbAngle)), rotationUnits::deg, 65, velocityUnits::pct); // turns the perfect amount to get to climb angle
+  //   cataLeft.setPosition(0, degrees); // resets encoder position to 0
+  //   cataRight.setPosition(0, degrees); // resets encoder position to 0
   } else {
     // if there is no input then it will brake both motors 
      cataLeft.stop(brakeType:: coast); // brakes motor using coast 
@@ -243,12 +244,20 @@ void tankDrive(float leftIn, float rightIn){
 }
 float modifier = 1.0;
 bool toggleState = false;
-void toggle(){
-  toggleState = !toggleState;
-  if (toggleState){
-    modifier = 0.5;
-  } else {
-    modifier = 1.0;
+bool latch = true;
+void toggle(bool input){
+  if(input && latch){
+    toggleState = !toggleState;
+    latch = false;
+  }
+  else if(!input){
+   latch = 1;
+  }
+  if(toggleState){
+   modifier = 0.75;
+  }
+  else{
+   modifier = 1;
   }
 }
 void tankDriveControl(float leftIn, float rightIn){
@@ -291,13 +300,14 @@ void usercontrol(void) {
     //arcadeDriveControl(Controller1.Axis3.value(), Controller1.Axis1.value());
     tankDriveControl(Controller1.Axis3.value(), Controller1.Axis2.value());
     //toggle slow drive
-    Controller1.ButtonDown.pressed(toggle);
     //slow arrow drive
     slowDrive();
     // outake  and climb controls
     /*float climbAngle, float cataResetAngle*/
     cataControl(110, 180);
     // flaps controls
+    // Controller1.ButtonUp.pressed();
+    toggle(Controller1.ButtonUp.pressing());
     Controller1.ButtonY.pressed(toggleFlaps); // calls the toggle function for the flaps when the button is pressed
     // wedge controls
     Controller1.ButtonA.pressed(toggleWedge); // calls the toggle function for wedge when the button is pressed
