@@ -34,7 +34,7 @@ void cataControls(float times){
   cataRight.spinFor((cataPosition(false)), rotationUnits::deg, 65, velocityUnits::pct); // turns the perfect amount to get to 180.
   cataLeft.setPosition(0, degrees); // resets encoder position to 0
   cataRight.setPosition(0, degrees); // resets encoder position to 0
-  this_thread::sleep_for(times);// waits set amount of time that was passed as a parameter before running it again
+//  this_thread::sleep_for(times);// waits set amount of time that was passed as a parameter before running it again
 }
 // real autons down here
 void kansasAuton(){
@@ -92,15 +92,26 @@ void defensiveAuton(){
 }
 
 void autonSkills(){
-    chassis.drive_distance(35);
+  chassis.drive_distance(35);
   chassis.drive_distance(-8);
-  chassis.turn_to_angle(100);
+  chassis.turn_to_angle(94);
   chassis.drive_distance(-12);
-  for(int i=0; i<=46; i++){
-  cataControls(100);
-  }
+  // for(int i=0; i<=46; i++){
+  // cataControls(100);
+  // }
+  chassis.drive_distance(25);
+  chassis.turn_to_angle(125);
+  chassis.drive_distance(15);
+  chassis.turn_to_angle(90);
+  chassis.drive_distance(45);
+  flapsPiston.set(true);
+  chassis.drive_distance(35);
+  chassis.drive_distance(-15);
+  flapsPiston.set(false);
+  chassis.turn_to_angle(90);
+  flapsPiston.set(true);
+  chassis.drive_distance(35);
+  chassis.left_swing_to_angle(360);
+
  }
-
-
-
 //useless stuff down heree 

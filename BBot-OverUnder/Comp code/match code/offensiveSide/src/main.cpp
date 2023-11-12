@@ -102,7 +102,8 @@ void autonomous(void) {
   auto_started = true;
   switch(current_auton_selection){  
     case 0:
-      defensiveAuton(); //This is the default auton, if one is not selected from the brain
+    autonSkills();
+     // defensiveAuton(); //This is the default auton, if one is not selected from the brain
       break;            //Tap the screen to cycle through autons.
     case 1:        
       kansasAuton();
@@ -251,7 +252,7 @@ void toggle(bool input){
     latch = false;
   }
   else if(!input){
-   latch = 1;
+   latch = true;
   }
   if(toggleState){
    modifier = 0.75;
