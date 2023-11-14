@@ -19,7 +19,6 @@
 
 #include "robot-config.h"
 #include "declarations/drive.h"
-#include "declarations/util.h"
 #include "declarations/PID.h"
 #include "autons.h"
 
