@@ -197,31 +197,24 @@ void cataControl(float cataResetAngle){
 void intakeControls(){
  //intake control function
  if (Controller1.ButtonR1.pressing()){
-    /* if r1 is being pressed then it will wait 0.085 of a second before spinning the arm up
+  /* if r1 is being pressed then it will wait 0.085 of a second before spinning the arm up
    it waits .085 of a second in order to remove the current from the hold braking, this way
    there are no issues with the arm jumping down before going up, or jumping up before going down */
-
-/*Waits 85 Miliseconds*/
-   wait(85, msec); 
-
-/* spins the intake Motor at 80 percent speed and spins it forward to spin the arm up*/
-   intakeMotor.spin(forward, -80, velocityUnits::pct); 
-
+  /*Waits 85 Miliseconds*/
+  wait(85, msec); 
+  /* spins the intake Motor at 80 percent speed and spins it forward to spin the arm up*/
+  intakeMotor.spin(forward, -80, velocityUnits::pct); 
 } else if (Controller1.ButtonR2.pressing()) {
-   /* if r2 is being pressed then it will wait 0.085 of a second before spinning the arm up
-   it waits .085 of a second in order to remove the current from the hold braking, this way
-   there are no issues with the arm jumping down before going up, or jumping up before going down */
-
-/*Waits 85 Miliseconds*/
-   wait(85, msec); 
-
-/* spins the intake Motor at 80 percent speed and spins it forwardto spin the arm down*/
-   intakeMotor.spin(forward, -80, velocityUnits::pct); 
-
+  /* if r2 is being pressed then it will wait 0.085 of a second before spinning the arm up
+  it waits .085 of a second in order to remove the current from the hold braking, this way
+  there are no issues with the arm jumping down before going up, or jumping up before going down */
+  /*Waits 85 Miliseconds*/
+  wait(85, msec); 
+  /* spins the intake Motor at 80 percent speed and spins it forwardto spin the arm down*/
+  intakeMotor.spin(forward, 80, velocityUnits::pct); 
  } else{
-   // if there is no input then it will brake and hold the arm.
-
-/*sets brake type to Hold so then the Intake arm will remain at the position it is at.*/
+  // if there is no input then it will brake and hold the arm.
+  /*sets brake type to Hold so then the Intake arm will remain at the position it is at.*/
     intakeMotor.stop(brakeType:: hold);  }
 }
 void slowTurn(){
@@ -232,7 +225,7 @@ void slowTurn(){
    RB.spin(forward, 15, percent);
    LF.spin(forward, -15, percent);
    RF.spin(forward, 15, percent);
- } else if (Controller1.ButtonRight.pressing()){
+ } else if (Controller1.ButtonUp.pressing()){
    // if the right arrow is being pressed, then it will turn right at 15% speed
    LB.spin(forward, 15, percent);
    RB.spin(forward, -15, percent);
@@ -368,10 +361,10 @@ void usercontrol(void) {
     cataControl(180);
     // flaps controls
     // Controller1.ButtonUp.pressed();
-    toggle(Controller1.ButtonUp.pressing(), 0.5);
-    Controller1.ButtonY.pressed(toggleFlaps); // calls the toggle function for the flaps when the button is pressed
+    toggle(Controller1.ButtonRight.pressing(), 0.4);
+    Controller1.ButtonB.pressed(toggleFlaps); // calls the toggle function for the flaps when the button is pressed
     // wedge controls
-    Controller1.ButtonA.pressed(toggleWedge); // calls the toggle function for wedge when the button is pressed
+    Controller1.ButtonY.pressed(toggleWedge); // calls the toggle function for wedge when the button is pressed
     //descorer controls
     intakeControls();
    
