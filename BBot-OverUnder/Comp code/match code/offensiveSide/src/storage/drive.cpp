@@ -1,7 +1,9 @@
 #include "vex.h"
 
 float reduce_0_to_360(float angle) {
+  /**/
   while(!(angle >= 0 && angle < 360)) {
+
     if( angle < 0 ) { angle += 360; }
     if(angle >= 360) { angle -= 360; }
   }
@@ -41,28 +43,28 @@ void Drive::drive_with_voltage(float leftVoltage, float rightVoltage){
 void Drive::set_constants
 (
 
-/* Regular Turn Constants--------------------------------*/
+/* Regular Turn Constants Parameters---------------------*/
   float turn_max_voltage, 
   float turn_kp, 
   float turn_ki, 
   float turn_kd, 
   float turn_starti, 
 
-/* Regular Drive Constants------------------------------*/
+/* Regular Drive Constants Parameters--------------------*/
   float drive_max_voltage, 
   float drive_kp, 
   float drive_ki, 
   float drive_kd, 
   float drive_starti, 
 
-/* Swing Turn Constants----------------------------------*/
+/* Swing Turn Constants Parameters-----------------------*/
   float swing_max_voltage, 
   float swing_kp, 
   float swing_ki, 
   float swing_kd, 
   float swing_starti, 
   
-/*Heading Constants------------------------------------*/
+/*Heading Constants Parameters---------------------------*/
   float heading_max_voltage, 
   float heading_kp,
   float heading_ki, 
@@ -72,28 +74,28 @@ void Drive::set_constants
 )
   {
 
-/* Regular Turn Constants--------------------------------*/
+/* Regular Turn Constants being set to Parameters-----------*/
   this->turn_max_voltage = turn_max_voltage;
   this->turn_kp = turn_kp;
   this->turn_ki = turn_ki;
   this->turn_kd = turn_kd;
   this->turn_starti = turn_starti;
 
-/* Regular Drive Constants------------------------------*/
+/* Regular Drive Constants  being set to Parameters---------*/
   this->drive_max_voltage = drive_max_voltage;
   this->drive_kp = drive_kp;
   this->drive_ki = drive_ki;
   this->drive_kd = drive_kd;
   this->drive_starti = drive_starti;
 
-/*Swing Turn Constants----------------------------------*/
+/*Swing Turn Constants being set to Parameters--------------*/
   this->swing_max_voltage = swing_max_voltage;
   this->swing_kp = swing_kp;
   this->swing_ki = swing_ki;
   this->swing_kd = swing_kd;
   this->swing_starti = swing_starti;
 
-/*Heading Constants------------------------------------*/
+/*Heading Constants being set to Parameters------------------*/
   this->heading_max_voltage = heading_max_voltage;
   this->heading_kp = heading_kp;
   this->heading_ki = heading_ki;
@@ -105,17 +107,17 @@ void Drive::set_constants
 void Drive::set_exit_conditions
 (
 
-/*Regular Turn Conditions----------------------------------*/
+/*Regular Turn Conditions Parameters----------------------------------*/
   float turn_settle_error, 
   float turn_settle_time, 
   float turn_timeout, 
 
-/*Swing Turn Conditions------------------------------------*/
+/*Swing Turn Conditions Parameters------------------------------------*/
   float swing_settle_error, 
   float swing_settle_time, 
   float swing_timeout,
 
-/*Regular Drive Conditions---------------------------------*/ 
+/*Regular Drive Conditions Parameters---------------------------------*/ 
   float drive_settle_error, 
   float drive_settle_time, 
   float drive_timeout
@@ -124,17 +126,17 @@ void Drive::set_exit_conditions
 
 {
 
-/*Regular Turn Conditions----------------------------------*/
+/*Regular Turn Conditions being set to Parameters---------------------*/
   this->turn_settle_error = turn_settle_error;
   this->turn_settle_time = turn_settle_time;
   this->turn_timeout = turn_timeout;
 
-/*Regular Drive Conditions----------------------------------*/
+/*Regular Drive Conditions being set to Parameters--------------------*/
   this->drive_settle_error = drive_settle_error;
   this->drive_settle_time = drive_settle_time;
   this->drive_timeout = drive_timeout;
 
-/*Swing Turn Conditions------------------------------------*/
+/*Swing Turn Conditions being set to Parameters----------------------*/
   this->swing_settle_error = swing_settle_error;
   this->swing_settle_time = swing_settle_time;
   this->swing_timeout = swing_timeout;

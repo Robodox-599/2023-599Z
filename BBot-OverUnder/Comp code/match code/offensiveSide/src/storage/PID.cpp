@@ -69,6 +69,6 @@ bool PID::settled(){
     /*If time_spent_settled is greater than the settle time then return true*/
     return(true); // returns true
   }
-  /*If none of the above is true then return false*/
+  /*Finally return false*/
   return(false); // returns false
 }

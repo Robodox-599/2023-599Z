@@ -342,7 +342,12 @@ check the state of the flapsToggled*/
    flapsPiston.set(false);
  }
 }
-
+void skillsSetup() {
+  chassis.drive_distance(35);
+  chassis.drive_distance(-8);
+  chassis.turn_to_angle(94);
+  chassis.drive_distance(-12);
+}
 
 /*                         End Function   Declarations                                                                                                                        */
 /*-----------------------------------------------------------------------------------------------*/
@@ -362,6 +367,7 @@ void usercontrol(void) {
     // flaps controls
     // Controller1.ButtonUp.pressed();
     toggle(Controller1.ButtonRight.pressing(), 0.4);
+    Controller1.ButtonX.pressed(skillsSetup);
     Controller1.ButtonB.pressed(toggleFlaps); // calls the toggle function for the flaps when the button is pressed
     // wedge controls
     Controller1.ButtonY.pressed(toggleWedge); // calls the toggle function for wedge when the button is pressed
