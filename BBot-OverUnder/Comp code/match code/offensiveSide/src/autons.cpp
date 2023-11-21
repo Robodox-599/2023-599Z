@@ -94,24 +94,40 @@ void defensiveAuton(){
 void autonSkills(){
   chassis.drive_distance(35);
   chassis.drive_distance(-8);
-  chassis.turn_to_angle(94);
+  chassis.turn_to_angle(45);
   chassis.drive_distance(-12);
   // for(int i=0; i<=46; i++){
   // cataControls(100);
-  // f
-  chassis.drive_distance(25);
+  // 
+  // chassis.drive_distance(25);
+  // chassis.turn_to_angle(125);
+  // chassis.drive_distance(15);
+  // chassis.turn_to_angle(90);
+  // chassis.drive_distance(45);
+  // flapsPiston.set(true);
+  // chassis.drive_distance(35);
+  // chassis.drive_distance(-15);
+  // flapsPiston.set(false);
+  // chassis.turn_to_angle(90);
+  // flapsPiston.set(true);
+  // chassis.drive_distance(35);
+  // chassis.left_swing_to_angle(360);
+  chassis.drive_distance(80);
   chassis.turn_to_angle(125);
-  chassis.drive_distance(15);
-  chassis.turn_to_angle(90);
-  chassis.drive_distance(45);
   flapsPiston.set(true);
-  chassis.drive_distance(35);
-  chassis.drive_distance(-15);
+  chassis.drive_distance(25);
+  chassis.drive_distance(-12);
   flapsPiston.set(false);
-  chassis.turn_to_angle(90);
+  chassis.turn_to_angle(30);
+  chassis.drive_distance(15);
+  chassis.turn_to_angle(125);
   flapsPiston.set(true);
-  chassis.drive_distance(35);
-  chassis.left_swing_to_angle(360);
+  chassis.drive_distance(12);
+  chassis.drive_distance(-12);
+
+
+
+
 
  }
 //useless stuff down heree 
