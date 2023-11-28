@@ -103,7 +103,7 @@ void autonomous(void) {
   switch(current_auton_selection){  
     case 0:
     autonSkills();
-     // defensiveAuton(); //This is the default auton, if one is not selected from the brain
+      // defensiveAuton(); //This is the default auton, if one is not selected from the brain
       break;            //Tap the screen to cycle through autons.
     case 1:        
       kansasAuton();
@@ -257,6 +257,7 @@ void toggle(bool input, float mod){
   modifier = 1;
  }
 }
+
 void arcadeDrive(float fwdIn, float trnIn){
 /*This is the arcade drive function. This uses the inputs passed in as parameters to calculate if there is turning or if there is regular driving. Overall this function was created in order to create modular code throughout the program.*/
  LB.spin(forward, (fwdIn + trnIn), percent); // uses parameters as input to determine the speed in percent for the motor
@@ -266,10 +267,20 @@ void arcadeDrive(float fwdIn, float trnIn){
 }
 void tankDrive(float leftIn, float rightIn){
 /* This is the tank drive function. This uses the inputs passed in as parameters to drive the left or right motors. Overall this function was created in order to create modular code throughout the program.*/
- LB.spin(forward, (leftIn), percent); // uses parameters as input to determine the speed in percent for the motor
- RB.spin(forward, (rightIn), percent); // uses parameters as input to determine the speed in percent for the motor
- LF.spin(forward, (leftIn), percent); // uses parameters as input to determine the speed in percent for the motor
- RF.spin(forward, (rightIn), percent); // uses parameters as input to determine the speed in percent for the motor
+  if (!(leftIn == 0)){
+    LB.spin(forward, (leftIn), percent); // uses parameters as input to determine the speed in percent for the motor
+    LF.spin(forward, (leftIn), percent); // uses parameters as input to determine the speed in percent for the motor
+  } else {
+    LB.stop(brakeType::brake);
+    LF.stop(brakeType::brake);
+  }
+   if (!(rightIn == 0)){
+    RB.spin(forward, (rightIn), percent); // uses parameters as input to determine the speed in percent for the motor
+    RF.spin(forward, (rightIn), percent); // uses parameters as input to determine the speed in percent for the motor
+   } else {
+    RB.stop(brakeType::brake);
+    RF.stop(brakeType::brake);
+   }
 }
 
 void arcadeDriveControl(float fwdIn, float trnIn){
@@ -343,6 +354,7 @@ check the state of the flapsToggled*/
  }
 }
 void skillsSetup() {
+  default_constants();
   chassis.drive_distance(35);
   chassis.drive_distance(-8);
   chassis.turn_to_angle(94);
@@ -367,7 +379,6 @@ void usercontrol(void) {
     // flaps controls
     // Controller1.ButtonUp.pressed();
     toggle(Controller1.ButtonRight.pressing(), 0.4);
-    Controller1.ButtonX.pressed(skillsSetup);
     Controller1.ButtonB.pressed(toggleFlaps); // calls the toggle function for the flaps when the button is pressed
     // wedge controls
     Controller1.ButtonY.pressed(toggleWedge); // calls the toggle function for wedge when the button is pressed
